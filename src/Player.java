@@ -19,10 +19,7 @@ public class Player extends VBox {
 	private ImageView Sunflower;
 	private ImageView Walnut;
 	private ImageView Sun;
-	private Plant Pea;
-	private Plant Flower;
-	private Plant fullWalnut;
-	
+
 	public Player(int p) {
 		super(10);
 		setPrefWidth(180);
@@ -46,25 +43,7 @@ public class Player extends VBox {
 		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
 		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
 		
-		Plant pea = new Plant();
-		Plant flower = new Plant();
-		Plant walnut = new Plant();
 		
 		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
-	}
-	
-	public void setUpPea(Player pea) {
-		pea.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Pea.getPea();
-			}
-			
-		});
-		
-		
-	}
-	
-
+	}	
 }
