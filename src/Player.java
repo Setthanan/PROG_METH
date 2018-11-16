@@ -1,16 +1,14 @@
-import javafx.event.Event;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-public class Player extends VBox {
+public class Player extends HBox {
 	
 	/*private int hp;
 	private int score;
@@ -21,8 +19,8 @@ public class Player extends VBox {
 	private ImageView Sun;
 
 	public Player(int p) {
-		super(10);
-		setPrefWidth(180);
+		super(20);
+		super.setPadding(new Insets(10, 25, 10, 25));
 		setAlignment(Pos.CENTER);
 		if(p==1) {
 			setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
