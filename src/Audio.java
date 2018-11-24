@@ -30,6 +30,10 @@ public class Audio {
 		mediaPlayer.play();
 	}
 	
+	public void play_once() {
+		mediaPlayer.play();
+	}
+	
 	public void stop_audio() {
 		mediaPlayer.stop();
 	}
