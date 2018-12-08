@@ -17,7 +17,7 @@ import logic.SunFlower;
 
 public class Table extends Pane{
 	private  final int H = 600;
-	private  final int W = 1200;
+	private  final int W = 1440;
 	private Canvas canvas ;
 	private  final int box_w = W/(Player.collumn*2);
 	private  final int box_h = H/Player.row;
