@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 import uiInterface.Display;
 
 public class SunFlower extends SpecialPlant {
-	private Image image = new Image(ClassLoader.getSystemResource("sunflower.png").toString(),Display.box_w,Display.box_h,false,false);
+	private Image image = new Image(ClassLoader.getSystemResource("sunflower.gif").toString(),Display.box_w,Display.box_h,false,false);
 	private SolarPower solar;
 	private boolean state;
 	
