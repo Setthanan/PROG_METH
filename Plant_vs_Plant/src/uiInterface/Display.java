@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -64,11 +65,11 @@ public class Display extends Application{
 	}*/
 	 @Override
 	 public void start(Stage stage)  {
-		 	VBox vbox = new VBox();
+		 	HBox hbox = new HBox();
 		 	table.getChildren().addAll(c1,c2);
-		 	vbox.getChildren().addAll(storages,table);
+		 	hbox.getChildren().addAll(storages,table);
 		 	root.setPrefSize(W, H+300);
-		 	root.getChildren().add(vbox);
+		 	root.getChildren().add(hbox);
 		 	
 	        stage.setTitle("Basic JavaFX demo");
 	        Scene scene = new Scene(root);

@@ -2,37 +2,55 @@ package uiInterface;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import logic.GreenBean;
 import logic.Plant;
 import logic.StonePlant;
 import logic.SunFlower;
 
-public class PlantStorage extends HBox {
+public class PlantStorage extends VBox {
 	///this class is suited for include error exception 
 	private final int Num0fSlot = 5;
 	private ArrayList<Plant> storage;
-	public Canvas plantSlot;
-	public ArrayList<Plant> randList;
+	private Canvas plantSlot;
+	private ImageView Peashooter;
+	public ImageView Sunflower;
+	public ImageView Walnut;
+	public ImageView Sun;
 	public PlantStorage() {
-		setPrefSize(0, 0);
+		super(15);
+		super.setPadding(new Insets(30, 10, 30, 10));
+		setAlignment(Pos.CENTER);
+		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
+		Label player = new Label("Player ");
+		Label score = new Label("Score");
+		Label hp = new Label("Hp");
+		player.setStyle("-fx-font-size:30; -fx-font-weight:BOLD;");
+		score.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
+		hp.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
+		Peashooter = new ImageView(new Image(ClassLoader.getSystemResource("peashooter.png").toString()));
+		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
+		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
+		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
-		this.randList = new ArrayList<Plant>();
-		randList.add(new GreenBean());
-		randList.add(new SunFlower());
-		randList.add(new StonePlant());
-		for(int i =0 ; i < Num0fSlot ; i++) {
-			storage.add(randList.get((int) (Math.random()*3)+0));
-		}
+		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
 	}
-	public void drawPlantSlot() {
+	/*public void drawPlantSlot() {
 		for(int i = 0; i < Num0fSlot ; i++) {
 			GraphicsContext gc = plantSlot.getGraphicsContext2D();
-			HBox slot = new HBox();
+			VBox slot = new VBox();
 			slot.setPrefSize(300,300);
 			slot.getChildren().add(plantSlot);
 			gc.drawImage(storage.get(i).getImage(), 100*i, 0);
@@ -40,10 +58,10 @@ public class PlantStorage extends HBox {
 			this.getChildren().add(slot);
 			
 		}
-	}
-	public void updatePlantSlot() {
+	}*/
+	/*public void updatePlantSlot() {
 			drawPlantSlot();
-	}
+	}*/
 	public String addPlant(Plant plant) {
 		if( storage.size() < Num0fSlot){	
 			storage.add(plant);

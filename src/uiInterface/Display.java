@@ -40,10 +40,6 @@ import javafx.util.Duration;
 
 public class Display extends Application{
 	
-	LinkedList<Bullet> bullets1 = new LinkedList<Bullet>();
-	//ArrayList<Bullet> bullets1Used = new ArrayList<Bullet>();
-	LinkedList<Bullet> bullets2 = new LinkedList<Bullet>();
-	//ArrayList<Bullet> bullets2Used = new ArrayList<Bullet>();
 	
 	//StackPane root = new StackPane();
 	Canvas canvas = new Canvas(1200,600);
@@ -106,7 +102,7 @@ public class Display extends Application{
 			
 			VBox vbox = new VBox();
 		 	table.getChildren().addAll(c1,c2);
-		 	vbox.getChildren().addAll(storages,table);
+		 	vbox.getChildren().addAll(table);
 			
 			StackPane tile = new StackPane();
 		 	tile.getChildren().addAll(yard,vbox);
@@ -114,7 +110,7 @@ public class Display extends Application{
 			HBox playScene = new HBox();
 			playScene.setPrefSize(W * table_size, H * table_size);
 			//playScene.setPadding(new Insets(15, 15, 15, 15));
-			playScene.getChildren().addAll(player,tile);
+			playScene.getChildren().addAll(storages,tile);
 			
 			HBox buttonBox2 = new HBox(10);
 			buttonBox2.setAlignment(Pos.CENTER_RIGHT);
@@ -287,7 +283,7 @@ public class Display extends Application{
 	        	  a++;
 	        	  
 	        	  
-	        	  storages.updatePlantSlot();
+	        	  //storages.updatePlantSlot();
 	        	  
 		        }
 		        

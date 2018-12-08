@@ -28,7 +28,7 @@ public class P extends VBox {
 	public ImageView Sunflower;
 	public ImageView Walnut;
 	public ImageView Sun;
-
+	
 	public P() {
 		super(15);
 		super.setPadding(new Insets(30, 10, 30, 10));
