@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 import uiInterface.Display;
 
 public class SolarPower extends Rectangle {
-	private Image image = new Image(ClassLoader.getSystemResource("sunflower.png").toString(),50,50,false,false);
+	private Image image = new Image(ClassLoader.getSystemResource("sunflower.gif").toString(),50,50,false,false);
 	private int x;
 	private int y;
 	private int i , j;

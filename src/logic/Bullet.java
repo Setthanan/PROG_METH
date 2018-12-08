@@ -3,6 +3,7 @@ package logic;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import uiInterface.Display;
@@ -69,7 +70,9 @@ public class Bullet extends GameObject{
 	
 	public void render(GraphicsContext gc) {
 		
-			gc.fillOval(x, y+25, w, w);//Image(image, x, y);
+		gc.fillOval(x, y+25, w, w);//Image(image, x, y);
+		
+		//image = new Image(ClassLoader.getSystemResource("Pea.png").toString(),w,w,false,false);
 	
 	}
 	
