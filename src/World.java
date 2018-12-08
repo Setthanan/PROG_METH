@@ -21,33 +21,17 @@ public class World extends Application{
 	public static final int table_size = 120;
 	public static final int WIDTH = 12;
 	public static final int HEIGHT = 5;
-	private ImageView main_menu,click;
+	private ImageView main_menu,click,yard;
 	private Button start,back,pause,resume;
 	private Scene scene1,scene2,scene3;
 	private Audio audio,menu;
-	private Tile[][] board = new Tile[WIDTH][HEIGHT];
-	private Player player;
-	
-	private Parent createArray() {
-		ImageView imageView = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
-		imageView.setPreserveRatio(true);
-		StackPane array = new StackPane();
-		array.setPrefSize(WIDTH * table_size, HEIGHT * table_size);		
-		for(int x = 0; x<WIDTH; x++) {
-			for(int y = 0; y<HEIGHT; y++) {
-				Tile tile = new Tile(x, y);
-				board[x][y] = tile;
-				array.getChildren().add(tile);
-			}
-		}
-		array.getChildren().addAll(imageView);
-		return array;
-	}
+	private P player;
 	
 	public World() {
-		player = new Player();
+		player = new P();
 		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
 		click = new ImageView(new Image(ClassLoader.getSystemResource("click_to_start.gif").toString()));
+		yard = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
 		audio = new Audio("background.wav"); 
 		menu = new Audio("menu.wav"); 
 		menu.play_audio();
@@ -75,7 +59,7 @@ public class World extends Application{
 		HBox playScene = new HBox();
 		playScene.setPrefSize(WIDTH * table_size, HEIGHT * table_size);
 		//playScene.setPadding(new Insets(15, 15, 15, 15));
-		playScene.getChildren().addAll(player,createArray());
+		playScene.getChildren().addAll(player,yard);
 		
 		HBox buttonBox2 = new HBox(10);
 		buttonBox2.setAlignment(Pos.CENTER_RIGHT);
@@ -90,6 +74,7 @@ public class World extends Application{
 		root3.setAlignment(Pos.CENTER);
 		root3.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null))); // *****change background*****
 		root3.setPrefSize(WIDTH * table_size, HEIGHT * table_size);
+		root3.setPadding(new Insets(15, 15, 15, 15));
 		root3.getChildren().addAll(resume,back);
 		scene3 = new Scene(root3);
 		

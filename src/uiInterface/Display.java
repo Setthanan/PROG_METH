@@ -12,18 +12,24 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -39,22 +45,45 @@ public class Display extends Application{
 	LinkedList<Bullet> bullets2 = new LinkedList<Bullet>();
 	//ArrayList<Bullet> bullets2Used = new ArrayList<Bullet>();
 	
-	StackPane root = new StackPane();
+	//StackPane root = new StackPane();
 	Canvas canvas = new Canvas(1200,600);
  	GraphicsContext gc = canvas.getGraphicsContext2D();
 	private Player p1 = new Player(200, 20000,0,0);
 	private Player p2 = new Player(200, 20000,0,0);
 	private Counter c1 = new Counter(0,500);
 	private Counter c2 = new Counter(600,1100);
-	private static final int H = 600;
-	private static final int W = 1200;
-	public static final int box_w = W/(Player.collumn*2);
-	public static final int box_h = H/Player.row;
+	private static final int H = 5;
+	private static final int W = 12;
+	public static final int table_size = 120;
+	public static final int box_w = (W*table_size)/(Player.collumn*2);
+	public static final int box_h = (H*table_size)/Player.row;
 	private boolean goUp1,goDown1,goLeft1,goRight1,digit1 = false;
 	private boolean goUp2,goDown2,goLeft2,goRight2,num1 = false;
 	private PlantStorage storages = new PlantStorage();
 	private Table table = new Table(p1,p2);
 	private Container container = new Container(p1, p2);
+	
+	private ImageView main_menu,click,yard;
+	private Button start,back,pause,resume;
+	private Scene scene1,scene2,scene3;
+	private Audio audio,menu;
+	private P player;
+	
+	public Display() {
+		player = new P();
+		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
+		click = new ImageView(new Image(ClassLoader.getSystemResource("click_to_start.gif").toString()));
+		yard = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
+		audio = new Audio("background.wav"); 
+		menu = new Audio("menu.wav"); 
+		menu.play_audio();
+		back = new Button("MAIN MENU");
+		pause = new Button("PAUSE");
+		resume = new Button("RESUME");
+		start = new Button();
+		start.setGraphic(click);
+		start.setStyle("-fx-background-color:transparent;");
+	}
 	
 	
 	
@@ -63,23 +92,95 @@ public class Display extends Application{
 		handler.tick();
 	}*/
 	 @Override
-	 public void start(Stage stage)  {
-		 	VBox vbox = new VBox();
+	 public void start(Stage primaryStage)  {
+		 	
+		 VBox buttonBox = new VBox();
+			buttonBox.setPadding(new Insets(20, 20, 20, 20));
+			buttonBox.setAlignment(Pos.BOTTOM_CENTER);
+			buttonBox.getChildren().add(start);
+			
+			StackPane root1 = new StackPane();
+			root1.setPrefSize(W * table_size, H * table_size);
+			root1.getChildren().addAll(main_menu,buttonBox);
+			scene1 = new Scene(root1);
+			
+			VBox vbox = new VBox();
 		 	table.getChildren().addAll(c1,c2);
 		 	vbox.getChildren().addAll(storages,table);
-		 	root.setPrefSize(W, H+300);
-		 	root.getChildren().add(vbox);
-		 	
-	        stage.setTitle("Basic JavaFX demo");
-	        Scene scene = new Scene(root);
+			
+			StackPane tile = new StackPane();
+		 	tile.getChildren().addAll(yard,vbox);
+	        
+			HBox playScene = new HBox();
+			playScene.setPrefSize(W * table_size, H * table_size);
+			//playScene.setPadding(new Insets(15, 15, 15, 15));
+			playScene.getChildren().addAll(player,tile);
+			
+			HBox buttonBox2 = new HBox(10);
+			buttonBox2.setAlignment(Pos.CENTER_RIGHT);
+			buttonBox2.getChildren().addAll(pause,resume,back);
+			
+			VBox root2 = new VBox(5);
+			root2.setPadding(new Insets(15, 15, 15, 15));
+			root2.getChildren().addAll(playScene,buttonBox2);
+			scene2 = new Scene(root2);
+			
+			VBox root3 = new VBox(10);
+			root3.setAlignment(Pos.CENTER);
+			root3.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null))); // *****change background*****
+			root3.setPrefSize(W * table_size, H * table_size);
+			root3.setPadding(new Insets(15, 15, 15, 15));
+			root3.getChildren().addAll(resume,back);
+			scene3 = new Scene(root3);
+			
+			start.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					primaryStage.setScene(scene2);
+					audio.play_audio();
+					menu.stop_audio();
+				}
+			});
+			back.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					primaryStage.setScene(scene1);
+					menu.play_audio();
+					audio.stop_audio();
+					
+				}
+			});
+			pause.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					primaryStage.setScene(scene3);
+					audio.pause();
+				}
+			});
+			resume.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					primaryStage.setScene(scene2);
+					audio.play_audio();
+				}
+			});
 	       
  		   System.out.println(p1.getPlant(4, 4));
 	        
-	        stage.setScene(scene);
-	        stage.setResizable(true);
-	        stage.show();
+	        primaryStage.setScene(scene1);
+	        primaryStage.setTitle("Basic JavaFX demo");
+	        primaryStage.setResizable(true);
+	        primaryStage.show();
 	        
-	        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	        scene2.setOnKeyPressed(new EventHandler<KeyEvent>() {
 	        	
 				@Override
 				public void handle(KeyEvent event) {
@@ -99,7 +200,7 @@ public class Display extends Application{
 				}
 	        	
 			});
-	       scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	       scene2.setOnKeyReleased(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {

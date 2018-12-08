@@ -1,3 +1,4 @@
+package uiInterface;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -18,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 
-public class Player extends VBox {
+public class P extends VBox {
 	
 	/*private int hp;
 	private int score;
@@ -28,7 +29,7 @@ public class Player extends VBox {
 	public ImageView Walnut;
 	public ImageView Sun;
 
-	public Player() {
+	public P() {
 		super(15);
 		super.setPadding(new Insets(30, 10, 30, 10));
 		setAlignment(Pos.CENTER);

@@ -9,7 +9,7 @@ import uiInterface.Display;
 
 public class StonePlant extends SpecialPlant {
 	private Image image = 
-			new Image(ClassLoader.getSystemResource("images/wallnut.png").toString(),Display.box_w,Display.box_h,false,false);
+			new Image(ClassLoader.getSystemResource("walnut.png").toString(),Display.box_w,Display.box_h,false,false);
 
 	private int guard;
 	public StonePlant() {
