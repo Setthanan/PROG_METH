@@ -37,5 +37,9 @@ public class Audio {
 	public void stop_audio() {
 		mediaPlayer.stop();
 	}
+	
+	public void pause() {
+		mediaPlayer.pause();
+	}
 
 }

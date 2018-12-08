@@ -1,35 +1,40 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 
-public class Player extends HBox {
+
+public class Player extends VBox {
 	
 	/*private int hp;
 	private int score;
 	private int sunCount;*/
-	private ImageView Peashooter;
-	private ImageView Sunflower;
-	private ImageView Walnut;
-	private ImageView Sun;
+	public ImageView Peashooter;
+	public ImageView Sunflower;
+	public ImageView Walnut;
+	public ImageView Sun;
 
-	public Player(int p) {
-		super(20);
-		super.setPadding(new Insets(10, 25, 10, 25));
+	public Player() {
+		super(15);
+		super.setPadding(new Insets(30, 10, 30, 10));
 		setAlignment(Pos.CENTER);
-		if(p==1) {
-			setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
-		}
-		else {
-			setBackground(new Background(new BackgroundFill(Color.ORANGERED, null, null)));
-		}
+		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
 		
-		Label player = new Label("Player "+p);
+		Label player = new Label("Player ");
 		Label score = new Label("Score");
 		Label hp = new Label("Hp");
 		player.setStyle("-fx-font-size:30; -fx-font-weight:BOLD;");
@@ -43,5 +48,5 @@ public class Player extends HBox {
 		
 		
 		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
-	}	
+	}
 }
