@@ -63,10 +63,10 @@ public class Display extends Application{
 	private Button start,back,pause,resume;
 	private Scene scene1,scene2,scene3;
 	private Audio audio,menu;
-	private P player;
+	private PlantStorage player;
 	
 	public Display() {
-		player = new P();
+		player = new PlantStorage();
 		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
 		click = new ImageView(new Image(ClassLoader.getSystemResource("click_to_start.gif").toString()));
 		yard = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
@@ -173,7 +173,7 @@ public class Display extends Application{
 	        
 	        primaryStage.setScene(scene1);
 	        primaryStage.setTitle("Basic JavaFX demo");
-	        primaryStage.setResizable(true);
+	        primaryStage.setResizable(false);
 	        primaryStage.show();
 	        
 	        scene2.setOnKeyPressed(new EventHandler<KeyEvent>() {

@@ -2,6 +2,7 @@ package uiInterface;
 
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +10,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
@@ -16,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.GreenBean;
 import logic.Plant;
+import logic.Player;
 import logic.StonePlant;
 import logic.SunFlower;
 
@@ -28,6 +35,12 @@ public class PlantStorage extends VBox {
 	public ImageView Sunflower;
 	public ImageView Walnut;
 	public ImageView Sun;
+	
+	
+	private Player p1 = new Player(200, 20000,0,0);
+	private Player p2 = new Player(200, 20000,0,0);
+	private Table table = new Table(p1, p2);
+	
 	public PlantStorage() {
 		super(15);
 		super.setPadding(new Insets(30, 10, 30, 10));
@@ -43,9 +56,55 @@ public class PlantStorage extends VBox {
 		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
 		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
 		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
+		drag(Peashooter);
+		drag(Sunflower);
+		drag(Walnut);
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
 		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
+		
+	}
+	
+	public void drag(ImageView iv) {
+		
+		iv.setOnDragDetected(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
+				ClipboardContent content = new ClipboardContent();
+				content.putImage(iv.getImage());
+				db.setContent(content);
+				event.consume();
+			}
+			
+		});
+		
+		table.setOnDragOver(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				if(event.getGestureSource() != table && event.getDragboard().hasImage()) {
+					event.acceptTransferModes(TransferMode.MOVE);
+				}
+				event.consume();
+			}
+		});
+		
+		table.setOnDragDropped(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if(db.hasImage()) {
+					table.getCanvas();
+					success = true;
+				}
+				event.setDropCompleted(success);
+				event.consume();
+			}
+		});
 	}
 	/*public void drawPlantSlot() {
 		for(int i = 0; i < Num0fSlot ; i++) {
@@ -89,4 +148,6 @@ public class PlantStorage extends VBox {
 			System.out.println(plant.getName()+" "+plant.getPlantKind()+" "+plant.getElemental());
 		}
 	}
+	
+	
 }

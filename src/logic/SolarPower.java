@@ -15,6 +15,8 @@ import uiInterface.Display;
 
 public class SolarPower extends Rectangle {
 	private Image image = new Image(ClassLoader.getSystemResource("sunflower.gif").toString(),50,50,false,false);
+	private Image s = new Image(ClassLoader.getSystemResource("sun.gif").toString());
+	private ImagePattern sun = new ImagePattern(s);
 	private int x;
 	private int y;
 	private int i , j;
@@ -24,7 +26,7 @@ public class SolarPower extends Rectangle {
 		relocate(x, y+Display.box_h);
 		setWidth(50);
 		setHeight(50);
-		setFill(Color.RED);
+		setFill(sun);
 		
 		this.x = x;
 		this.y = y;

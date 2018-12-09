@@ -12,8 +12,8 @@ public class Bullet extends GameObject{
 	/// due to there are many type of bullet , i will extend this class to build other.
 	protected int power;
 	protected boolean readyState;
-	protected final int w = 10;
-	private Image image;
+	protected final int w = 25;
+	private Image image = new Image(ClassLoader.getSystemResource("Pea.png").toString(),w,w,false,false);;
 	private int id = 0;
 	private static int num = 0;
 	public Bullet(int x,int y,boolean visible) {
@@ -70,7 +70,8 @@ public class Bullet extends GameObject{
 	
 	public void render(GraphicsContext gc) {
 		
-		gc.fillOval(x, y+25, w, w);//Image(image, x, y);
+		//gc.fillOval(x, y+25, w, w);//Image(image, x, y);
+		gc.drawImage(image, x, y+25);
 		
 		//image = new Image(ClassLoader.getSystemResource("Pea.png").toString(),w,w,false,false);
 	
