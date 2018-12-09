@@ -105,10 +105,7 @@ public class Table extends Pane{
 				if(p1.playerPlant[i][j] != null ) {
 					if(!(p1.playerPlant[i][j].equals(tiles[i][j].getPlant()))) {
 						tiles[i][j].set(i, j, p1.playerPlant[i][j]);
-						/*if(p1.playerPlant[i][j] instanceof SunFlower) {
-							tiles[i][j].getChildren().add(((SunFlower)p1.playerPlant[i][j]).getSolarPower());
-							
-						}*/
+						
 					}
 				}
 				if(p1.playerPlant[i][j] == null ) {

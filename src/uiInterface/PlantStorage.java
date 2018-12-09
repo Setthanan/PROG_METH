@@ -75,9 +75,9 @@ public class PlantStorage extends VBox {
 	
 	public void drag(ImageView iv) {
 		for(int i = 0; i< table.row; i++) {
-			for(int j = 0; j<table.col; j++) {
+			for(int j = 0; j<table.col/2; j++) {
 				Tile tiles = table.getTile(i,j);
-				System.out.println(tiles);
+				System.out.println(i+","+j+" "+tiles);
 				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
 		
 					@Override
@@ -130,17 +130,20 @@ public class PlantStorage extends VBox {
 					@Override
 					public void handle(DragEvent event) {
 						Dragboard db = event.getDragboard();
-						System.out.println(db.hasImage());
 						boolean success = false;
+							int i = (int)(Math.floor(event.getScreenY())/Display.box_h)/2;
+							int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
+							System.out.println(i+" "+j);
 						if(db.hasImage()) {
 							if(db.getImage().equals(Peashooter)) {
-								p1.spawnPlant(new GreenBean(), (int)event.getX(), (int)event.getY());
+								p1.spawnPlant(new GreenBean(), i, j);
 							}
 							if(db.getImage().equals(Sunflower)) {
-								p1.spawnPlant(new SunFlower(), (int)event.getSceneX(), (int)event.getSceneY());
+								p1.spawnPlant(new SunFlower(), i, j);
 							}
 							else {
-								p1.spawnPlant(new StonePlant(), (int)event.getSceneX(), (int)event.getSceneY());
+								p1.spawnPlant(new StonePlant(), i, j);
+								
 							}
 							success = true;
 						}
