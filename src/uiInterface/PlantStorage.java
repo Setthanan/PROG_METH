@@ -41,16 +41,15 @@ public class PlantStorage extends VBox {
 	private SunFlower flower = new SunFlower();
 	private StonePlant walnut = new StonePlant();
 	
-	private Player p1 = new Player(200, 20000,0,0);
-	private Player p2 = new Player(200, 20000,0,0);
-	private Table table = new Table(p1, p2);
-	
-	private Tile[][] tile = table.getTile();
+	private Player p1 ;
+	private Table table ;
 	private Tile tiles;
 	
 	
-	public PlantStorage() {
+	public PlantStorage(Table table,Player p1) {
 		super(15);
+		this.table = table;
+		this.p1 = p1;
 		super.setPadding(new Insets(30, 10, 30, 10));
 		setAlignment(Pos.CENTER);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
@@ -69,16 +68,16 @@ public class PlantStorage extends VBox {
 		drag(Walnut);
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
+		
 		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
 		
 	}
 	
 	public void drag(ImageView iv) {
-		
 		for(int i = 0; i< table.row; i++) {
 			for(int j = 0; j<table.col; j++) {
-				tiles = tile[i][j];
-		
+				Tile tiles = table.getTile(i,j);
+				System.out.println(tiles);
 				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
 		
 					@Override
@@ -92,7 +91,7 @@ public class PlantStorage extends VBox {
 					}
 					
 				});
-				
+				if(tiles == null) return;
 				tiles.setOnDragOver(new EventHandler<DragEvent>() {
 		
 					@Override
@@ -127,20 +126,21 @@ public class PlantStorage extends VBox {
 				
 				
 				tiles.setOnDragDropped(new EventHandler<DragEvent>() {
-		
+					
 					@Override
 					public void handle(DragEvent event) {
 						Dragboard db = event.getDragboard();
+						System.out.println(db.hasImage());
 						boolean success = false;
 						if(db.hasImage()) {
 							if(db.getImage().equals(Peashooter)) {
-								p1.spawnPlant(shooter, (int)event.getX(), (int)event.getY());
+								p1.spawnPlant(new GreenBean(), (int)event.getX(), (int)event.getY());
 							}
 							if(db.getImage().equals(Sunflower)) {
-								p1.spawnPlant(flower, (int)event.getSceneX(), (int)event.getSceneY());
+								p1.spawnPlant(new SunFlower(), (int)event.getSceneX(), (int)event.getSceneY());
 							}
 							else {
-								p1.spawnPlant(walnut, (int)event.getSceneX(), (int)event.getSceneY());
+								p1.spawnPlant(new StonePlant(), (int)event.getSceneX(), (int)event.getSceneY());
 							}
 							success = true;
 						}

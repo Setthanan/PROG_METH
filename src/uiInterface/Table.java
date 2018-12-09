@@ -91,7 +91,7 @@ public class Table extends Pane{
 		this.container = new Container(p1, p2);
 		this.canvas = new Canvas(W,H);
 		this.getChildren().add(canvas);
-		
+		updateTable();
 		
 	}
 	public void updateTable() {
@@ -154,6 +154,9 @@ public class Table extends Pane{
 	}
 	public Tile[][] getTile() {
 		return tiles; 
+	}
+	public Tile getTile(int i ,int j) {
+		return tiles[i][j];
 	}
 	public void removeFromTile(int i,int j,SolarPower obj) {
 		

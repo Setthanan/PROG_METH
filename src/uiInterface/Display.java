@@ -12,7 +12,6 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -45,8 +44,8 @@ public class Display extends Application{
 	//StackPane root = new StackPane();
 	Canvas canvas = new Canvas(1200,600);
  	GraphicsContext gc = canvas.getGraphicsContext2D();
-	private Player p1 = new Player(200, 20000,0,0);
-	private Player p2 = new Player(200, 20000,0,0);
+	private Player p1 = new Player(200, 2000,0,0);
+	private Player p2 = new Player(200, 2000,0,0);
 	private Counter c1 = new Counter(0,500);
 	private Counter c2 = new Counter(600,1100);
 	private static final int H = 5;
@@ -56,23 +55,18 @@ public class Display extends Application{
 	public static final int box_h = (H*table_size)/Player.row;
 	private boolean goUp1,goDown1,goLeft1,goRight1,digit1 = false;
 	private boolean goUp2,goDown2,goLeft2,goRight2,num1 = false;
-	private PlantStorage storages = new PlantStorage();
+	private PlantStorage storages;
 	private Table table = new Table(p1,p2);
 	private Container container = new Container(p1, p2);
-	
+	private RandomSpawn com = new RandomSpawn(p2);
+	private Timeline timeline1,timeline2,timeline3,timeline4;
 	private ImageView main_menu,click,yard;
 	private Button start,back,pause,resume;
 	private Scene scene1,scene2,scene3;
 	private Audio audio,menu;
-	private PlantStorage player;
-	
-	private Thread t;
-	private boolean check;
-	
-	private GreenBean pea;
 	
 	public Display() {
-		player = new PlantStorage();
+		storages = new PlantStorage(table,p1);
 		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
 		click = new ImageView(new Image(ClassLoader.getSystemResource("click_to_start.gif").toString()));
 		yard = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
@@ -85,7 +79,6 @@ public class Display extends Application{
 		start = new Button();
 		start.setGraphic(click);
 		start.setStyle("-fx-background-color:transparent;");
-		check = false;
 	}
 	
 	
@@ -141,6 +134,10 @@ public class Display extends Application{
 				@Override
 				public void handle(ActionEvent event) {
 					// TODO Auto-generated method stub
+					timeline1.play();
+					timeline2.play();
+					timeline3.play();
+					timeline4.play();
 					primaryStage.setScene(scene2);
 					audio.play_audio();
 					menu.stop_audio();
@@ -149,13 +146,14 @@ public class Display extends Application{
 			back.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override
-				public void handle(ActionEvent event) { // doesn't delete memory
-					primaryStage.close();
-					Platform.runLater( () -> new Display().start(new Stage()) );
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					timeline1.stop();
+					timeline2.stop();
+					timeline3.stop();
+					timeline4.stop();
 					primaryStage.setScene(scene1);
-					container.deleteBullet();
-					System.out.println("delete");
-					//menu.play_audio();
+					menu.play_audio();
 					audio.stop_audio();
 					
 				}
@@ -165,8 +163,11 @@ public class Display extends Application{
 				@Override
 				public void handle(ActionEvent event) {
 					// TODO Auto-generated method stub
+					timeline1.pause();
+					timeline2.pause();
+					timeline3.pause();
+					timeline4.pause();
 					primaryStage.setScene(scene3);
-					
 					audio.pause();
 				}
 			});
@@ -175,10 +176,12 @@ public class Display extends Application{
 				@Override
 				public void handle(ActionEvent event) {
 					// TODO Auto-generated method stub
+					timeline1.play();
+					timeline2.play();
+					timeline3.play();
+					timeline4.play();
 					primaryStage.setScene(scene2);
 					audio.play_audio();
-					check = false;
-					thread();
 				}
 			});
 	       
@@ -227,103 +230,134 @@ public class Display extends Application{
 				}
 			}
 		});
-	  
-	       new AnimationTimer() {
-	    	   double lastTime = 0;
-	    	   int a = 0;
-	    	   int i = 0;
-			@Override
-			public void handle(long currentTime) {
-				
-				
-				double deltaTime = (currentTime - lastTime) / 1000000;
-
-		        
-		  
-		        if(deltaTime > 60) {
-		        	table.getCanvas().getGraphicsContext2D().clearRect(0, 0, 1200, 600);
-	        	   if(goUp1) c2.moveCounter(0, -1);
-	        	   if(goDown1) c2.moveCounter(0, 1);
-	        	   if(goLeft1)	c2.moveCounter(-1, 0);
-	        	   if(goRight1)	c2.moveCounter(1, 0);
-	        	   if(goUp2) c1.moveCounter(0, -1);
-	        	   if(goDown2) c1.moveCounter(0, 1);
-	        	   if(goLeft2)	c1.moveCounter(-1, 0);
-	        	   if(goRight2)	c1.moveCounter(1, 0);
-	        	   if(digit1) {
-	        		   
-	        		   p1.spawnPlant(new SunFlower(), 1, 0);
-	        		   p1.spawnPlant(new SunFlower(), 2, 0);
-	        		   p1.spawnPlant(new SunFlower(), 1, 4);
-	        		   p1.spawnPlant(new SunFlower(), 4, 0);
-	        
-	        		  
-	        	   }
-	        	   if(num1) {
-	        		   p2.spawnPlant(new GreenBean(), 1, 1);
-	    
-	        	   }
-	        	   
-	        	   table.updateTable();
-	        	if(a > 30)  {
-	        		System.out.println(a);
-	        		//loadBullet(a);
-	        		container.addBulletContainer();
-	        		container.addSolarPower(table);
-	        		
-	        		a = 0;
-	        	}
-	        	if(deltaTime > 70) {
-	        		
-	        	}
-	        	lastTime  = currentTime;
-	        	container.updateSolarPower(table);
-	        	   container.updateBulletMovement(5);
-	        	   container.updateCollision();
-	        	   p1.detectPlant();
-	        	   p2.detectPlant();
-	        	   container.updateOutOfRangeBullet();
-	        	   container.drawBullet(table.getCanvas().getGraphicsContext2D());
-	        	   
-	        	   table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
-	        	   container.drawSolars(table.getCanvas().getGraphicsContext2D());
-	        	   
-	        	  //tick();// not finished yet
-	        	   
-	        	   
-	        	    // have to  create drawing plant separate with this
-	        	   
-	        	  a++;
-	        	  
-	        	  
-	        	  //storages.updatePlantSlot();
-	        	  
-		        }
-		        
-			}}.start();
 	   
+	  EventHandler event = new EventHandler() {
+
+		@Override
+		public void handle(Event event) {
+			// TODO Auto-generated method stub
+			
+      	   if(goUp1) c2.moveCounter(0, -1);
+      	   if(goDown1) c2.moveCounter(0, 1);
+      	   if(goLeft1)	c2.moveCounter(-1, 0);
+      	   if(goRight1)	c2.moveCounter(1, 0);
+      	   if(goUp2) ;
+      	   if(goDown2) ;
+      	   if(goLeft2)	c1.moveCounter(-1, 0);
+      	   if(goRight2)	c1.moveCounter(1, 0);
+      	   if(digit1) {
+      		   
+      		   for(int i = 0 ; i < Player.row;i++) {
+      			   for(int j = 0 ; j <Player.collumn;j++) {
+      				 
+            	
+      				 p1.spawnPlant(new GreenBean(), i, j);
+      			   }
+      		   }
+      		  
+      	   }
+      	   if(num1) {
+      		   p2.spawnPlant(new GreenBean(), 0, 0);
+
+  
+      	   }
+      	   
+      		
+      		
+      		
+      		
+      	
+      	   
+      	   
+	        }
+		
+		  
+	};
+	EventHandler event2 = new EventHandler() {
+
+		@Override
+		public void handle(Event event) {
+			
+      		container.addBulletContainer();
+		}
+		
+	};
+	EventHandler event3 = new EventHandler() {
+		
+		@Override
+		public void handle(Event event) {
+			
+			
+			
+			table.updateTable();
+      		container.updateSolarPower(table);
+      	   container.updateCollision();
+      	 container.updateBulletMovement(1);
+      	   p1.detectPlant();
+      	   p2.detectPlant();
+      	   container.updateOutOfRangeBullet();	
+      	   
+      	 
+      	   
+      	   
+		}
+		
+	};
+	EventHandler event4 = new EventHandler() {
+
+		@Override
+		public void handle(Event event) {
+			container.addSolarPower(table);
+      			
+		}
+		
+	};
+	EventHandler event5 = new EventHandler() {
+
+		@Override
+		public void handle(Event event) {
+			table.getCanvas().getGraphicsContext2D().clearRect(0, 0, 1500, 600);
+
+			container.drawBullet(table.getCanvas().getGraphicsContext2D());
+	      	 table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
+	      	 container.drawSolars(table.getCanvas().getGraphicsContext2D());	
+		}
+		
+	};
+	        timeline1 = new Timeline();
+	        timeline2 = new Timeline();
+	        timeline3 = new Timeline();
+	        timeline4 = new Timeline();
+
+	 				
+	 		KeyFrame key1 = new KeyFrame(Duration.millis(100), event);
+	 		KeyFrame key2 = new KeyFrame(Duration.millis(10000), event2);
+	 		KeyFrame key3 = new KeyFrame(Duration.millis(10), event3);
+	 		KeyFrame key4 = new KeyFrame(Duration.millis(10000), event4);
+	 		KeyFrame key5 = new KeyFrame(Duration.millis(1), event5);
+	 		timeline1.getKeyFrames().addAll(key1);
+	 		timeline2.getKeyFrames().addAll(key2);
+	 		timeline3.getKeyFrames().addAll(key3);
+	 		timeline4.getKeyFrames().addAll(key5);
+	 		
+
+	 				
+	         timeline1.setCycleCount(Animation.INDEFINITE);
+	         timeline2.setCycleCount(Animation.INDEFINITE);
+	         timeline3.setCycleCount(Animation.INDEFINITE);
+	         timeline4.setCycleCount(Animation.INDEFINITE);
+
+	        timeline1.play();
+	        timeline2.play();
+	        timeline3.play();
+	        timeline4.play();
+	       
 	       
 	       
 	    }
 	 @Override
 	 public void stop() {
 		 
-	 }
-	 
-	 public void thread() {
-		t = new Thread(() -> {
-			while(check) {
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-				
-		});
-		t.start();
-			
 	 }
 	
 	 public static void main(String[] args) {
