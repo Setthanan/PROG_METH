@@ -98,12 +98,15 @@ public class Container {
 			 
 		 }
 	}
-	public void updateOutOfRangeBullet() {
+	public void updateOutOfRangeBullet(Player p1) {
 		for(int i = 0; i <bullets1.size(); i++) {
-			if(bullets1.get(i).getX() > 2000) bullets1.remove(bullets1.get(i));
+			if(bullets1.get(i).getX() > 1000) bullets1.remove(bullets1.get(i));
 		 }
 		 for(int i = 0; i <bullets2.size(); i++) {
-			if(bullets2.get(i).getX() < -2000) bullets2.remove(bullets2.get(i));	
+			if(bullets2.get(i).getX() < -1000) {
+				p1.directDamage(1);
+				bullets2.remove(bullets2.get(i));	
+			}
 		}
 	}
 	public void drawBullet(GraphicsContext gc) {

@@ -300,7 +300,7 @@ public class Display extends Application{
       			   for(int j = 0 ; j <Player.collumn;j++) {
       				 
             	
-      				 p1.spawnPlant(new GreenBean(), i, j);
+      				 p2.spawnPlant(new GreenBean(), i, j);
       			   }
       		   }
       		  
@@ -327,8 +327,9 @@ public class Display extends Application{
 		public void handle(Event event) {
 			//com.addRand(3);
 			//com.updateToTable();
+			container.addSolarPower(table);
       		container.addBulletContainer();
-		}
+		}	
 		
 	};
 	EventHandler event3 = new EventHandler() {
@@ -344,8 +345,8 @@ public class Display extends Application{
       	 container.updateBulletMovement(1);
       	   p1.detectPlant();
       	   p2.detectPlant();
-      	   container.updateOutOfRangeBullet();	
-      	   
+      	   container.updateOutOfRangeBullet(p1);	
+      	   storages.updateStorage();
       	 
       	   
       	   
@@ -356,7 +357,7 @@ public class Display extends Application{
 
 		@Override
 		public void handle(Event event) {
-			container.addSolarPower(table);
+			
       			
 		}
 		

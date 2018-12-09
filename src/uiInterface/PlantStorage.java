@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -45,18 +46,21 @@ public class PlantStorage extends VBox {
 	private Player p1 ;
 	private Table table ;
 	private Tile tiles;
-	
-	
+	private ProgressBar hpBar ;
+	private Label solar;
 	public PlantStorage(Table table,Player p1) {
 		super(15);
 		this.table = table;
 		this.p1 = p1;
+		this.hpBar = new ProgressBar(p1.getPlayerHp()/p1.getPlayerMaxHp());
+		hpBar.setPrefSize(100, 20);
 		super.setPadding(new Insets(30, 10, 30, 10));
 		setAlignment(Pos.CENTER);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
 		Label player = new Label("Player ");
 		Label score = new Label("Score");
 		Label hp = new Label("Hp");
+		this.solar = new Label(String.valueOf(p1.getSunPower()));
 		player.setStyle("-fx-font-size:30; -fx-font-weight:BOLD;");
 		score.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
 		hp.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
@@ -67,10 +71,12 @@ public class PlantStorage extends VBox {
 		drag(Peashooter,"peashooter");
 		drag(Sunflower,"sunflower");
 		drag(Walnut,"walnut");
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(Sun,solar);
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
 		
-		getChildren().addAll(player,score,hp,Sun,Sunflower,Peashooter,Walnut);
+		getChildren().addAll(player,score,hp,hpBar,vbox,Sunflower,Peashooter,Walnut);
 		
 	}
 	
@@ -199,6 +205,16 @@ public class PlantStorage extends VBox {
 			System.out.println(plant.getName()+" "+plant.getPlantKind()+" "+plant.getElemental());
 		}
 	}
-	
+	public void updateHpBar() {
+		if(p1.getPlayerHp() <= 0) return;
+		hpBar.setProgress(p1.getPlayerHp()/p1.getPlayerMaxHp());
+	}
+	public void updateSolarPower() {
+		solar.setText(String.valueOf(p1.getSunPower()));
+	}
+	public void updateStorage() {
+		updateHpBar();
+		updateSolarPower();
+	}
 	
 }
