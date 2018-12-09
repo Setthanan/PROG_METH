@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -65,6 +66,9 @@ public class Display extends Application{
 	private Audio audio,menu;
 	private PlantStorage player;
 	
+	private Thread t;
+	private boolean check;
+	
 	public Display() {
 		player = new PlantStorage();
 		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
@@ -79,6 +83,7 @@ public class Display extends Application{
 		start = new Button();
 		start.setGraphic(click);
 		start.setStyle("-fx-background-color:transparent;");
+		check = false;
 	}
 	
 	
@@ -143,9 +148,10 @@ public class Display extends Application{
 				
 				@Override
 				public void handle(ActionEvent event) {
-					// TODO Auto-generated method stub
+					//primaryStage.close();
+					Platform.runLater( () -> new Display().start( new Stage() ) );
 					primaryStage.setScene(scene1);
-					menu.play_audio();
+					//menu.play_audio();
 					audio.stop_audio();
 					
 				}
@@ -157,6 +163,8 @@ public class Display extends Application{
 					// TODO Auto-generated method stub
 					primaryStage.setScene(scene3);
 					audio.pause();
+					check = true;
+					thread();
 				}
 			});
 			resume.setOnAction(new EventHandler<ActionEvent>() {
@@ -166,6 +174,8 @@ public class Display extends Application{
 					// TODO Auto-generated method stub
 					primaryStage.setScene(scene2);
 					audio.play_audio();
+					check = false;
+					thread();
 				}
 			});
 	       
@@ -295,6 +305,22 @@ public class Display extends Application{
 	 @Override
 	 public void stop() {
 		 
+	 }
+	 
+	 public void thread() {
+		t = new Thread(() -> {
+			while(check) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+				
+		});
+		t.start();
+			
 	 }
 	
 	 public static void main(String[] args) {

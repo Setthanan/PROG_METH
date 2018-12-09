@@ -36,10 +36,14 @@ public class PlantStorage extends VBox {
 	public ImageView Walnut;
 	public ImageView Sun;
 	
+	private GreenBean shooter = new GreenBean();
+	private SunFlower flower = new SunFlower();
+	private StonePlant walnut = new StonePlant();
 	
 	private Player p1 = new Player(200, 20000,0,0);
 	private Player p2 = new Player(200, 20000,0,0);
 	private Table table = new Table(p1, p2);
+	
 	
 	public PlantStorage() {
 		super(15);
@@ -71,6 +75,7 @@ public class PlantStorage extends VBox {
 
 			@Override
 			public void handle(MouseEvent event) {
+				System.out.println("grab");
 				Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
 				ClipboardContent content = new ClipboardContent();
 				content.putImage(iv.getImage());
@@ -84,12 +89,34 @@ public class PlantStorage extends VBox {
 
 			@Override
 			public void handle(DragEvent event) {
+				System.out.println("on drag over");
 				if(event.getGestureSource() != table && event.getDragboard().hasImage()) {
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
 				event.consume();
 			}
 		});
+		
+		table.setOnDragEntered(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				if(event.getGestureSource() != table && event.getDragboard().hasImage()) {
+					System.out.println("enter!!!");
+				}
+				event.consume();
+			}
+		});
+		
+		table.setOnDragExited(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				System.out.println("exit...");
+				event.consume();
+			}
+		});
+		
 		
 		table.setOnDragDropped(new EventHandler<DragEvent>() {
 
@@ -98,7 +125,15 @@ public class PlantStorage extends VBox {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if(db.hasImage()) {
-					table.getCanvas();
+					if(db.getImage().equals(Peashooter)) {
+						p1.spawnPlant(shooter, (int)event.getX(), (int)event.getY());
+					}
+					if(db.getImage().equals(Sunflower)) {
+						p1.spawnPlant(flower, (int)event.getSceneX(), (int)event.getSceneY());
+					}
+					else {
+						p1.spawnPlant(walnut, (int)event.getSceneX(), (int)event.getSceneY());
+					}
 					success = true;
 				}
 				event.setDropCompleted(success);
