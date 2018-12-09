@@ -46,7 +46,7 @@ public class Display extends Application{
 	Canvas canvas = new Canvas(1200,600);
  	GraphicsContext gc = canvas.getGraphicsContext2D();
 	private Player p1 = new Player(200, 2000,0,0);
-	private Player p2 = new Player(200, 2000,0,0);
+	private Player p2 = new Player(200, 200000,0,0);
 	private Counter c1 = new Counter(0,500);
 	private Counter c2 = new Counter(600,1100);
 	private static final int H = 5;
@@ -107,7 +107,6 @@ public class Display extends Application{
 			scene1 = new Scene(root1);
 			
 			VBox vbox = new VBox();
-		 	table.getChildren().addAll(c1,c2);
 		 	vbox.getChildren().addAll(table);
 			
 			StackPane tile = new StackPane();
@@ -304,8 +303,7 @@ public class Display extends Application{
       		  
       	   }
       	   if(num1) {
-      		   p2.spawnPlant(new GreenBean(), 0, 0);
-
+      		 
   
       	   }
       	   
@@ -324,7 +322,8 @@ public class Display extends Application{
 
 		@Override
 		public void handle(Event event) {
-			
+			//com.addRand(3);
+			//com.updateToTable();
       		container.addBulletContainer();
 		}
 		

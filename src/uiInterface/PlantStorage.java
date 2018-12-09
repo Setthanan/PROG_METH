@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -63,9 +64,9 @@ public class PlantStorage extends VBox {
 		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
 		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
 		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
-		drag(Peashooter);
-		drag(Sunflower);
-		drag(Walnut);
+		drag(Peashooter,"peashooter");
+		drag(Sunflower,"sunflower");
+		drag(Walnut,"walnut");
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
 		
@@ -73,7 +74,7 @@ public class PlantStorage extends VBox {
 		
 	}
 	
-	public void drag(ImageView iv) {
+	public void drag(ImageView iv,String name) {
 		for(int i = 0; i< table.row; i++) {
 			for(int j = 0; j<table.col/2; j++) {
 				Tile tiles = table.getTile(i,j);
@@ -85,8 +86,9 @@ public class PlantStorage extends VBox {
 						System.out.println("grab");
 						Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
 						ClipboardContent content = new ClipboardContent();
-						content.putImage(iv.getImage());
+						content.putString(name);
 						db.setContent(content);
+						db.setDragView(iv.getImage());
 						event.consume();
 					}
 					
@@ -96,8 +98,7 @@ public class PlantStorage extends VBox {
 		
 					@Override
 					public void handle(DragEvent event) {
-						System.out.println("on drag over");
-						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+						if(event.getGestureSource() != tiles && event.getDragboard().hasContent(DataFormat.PLAIN_TEXT)) {
 							event.acceptTransferModes(TransferMode.MOVE);
 						}
 						event.consume();
@@ -108,7 +109,7 @@ public class PlantStorage extends VBox {
 		
 					@Override
 					public void handle(DragEvent event) {
-						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+						if(event.getGestureSource() != tiles && event.getDragboard().hasContent(DataFormat.PLAIN_TEXT)) {
 							System.out.println("enter!!!");
 						}
 						event.consume();
@@ -131,17 +132,19 @@ public class PlantStorage extends VBox {
 					public void handle(DragEvent event) {
 						Dragboard db = event.getDragboard();
 						boolean success = false;
-							int i = (int)(Math.floor(event.getScreenY())/Display.box_h)/2;
-							int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
-							System.out.println(i+" "+j);
-						if(db.hasImage()) {
-							if(db.getImage().equals(Peashooter)) {
+							int i = (int)((event.getSceneY()-15)/120);
+							int j = (int)((event.getSceneX()-132)/120);
+							System.out.println(event.getSceneX()+" "+event.getSceneY()+","+i+" "+j);
+							System.out.println(db.getString());
+							
+						if(db.hasString()) {
+							if(db.getContent(DataFormat.PLAIN_TEXT).equals("peashooter")) {
 								p1.spawnPlant(new GreenBean(), i, j);
 							}
-							if(db.getImage().equals(Sunflower)) {
+							if(db.getContent(DataFormat.PLAIN_TEXT).equals("sunflower")) {
 								p1.spawnPlant(new SunFlower(), i, j);
 							}
-							else {
+							if(db.getContent(DataFormat.PLAIN_TEXT).equals("walnut")) {
 								p1.spawnPlant(new StonePlant(), i, j);
 								
 							}

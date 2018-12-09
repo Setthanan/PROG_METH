@@ -77,7 +77,6 @@ public class Table extends Pane{
 			}
 			else {
 				gc.drawImage(plant.getImage(), j*box_w, i*box_h,box_w,box_h);
-				System.out.println(i+" "+j);
 				
 			}
 		}
