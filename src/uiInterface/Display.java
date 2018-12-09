@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -60,22 +61,26 @@ public class Display extends Application{
 	private Container container = new Container(p1, p2);
 	private RandomSpawn com = new RandomSpawn(p2);
 	private Timeline timeline1,timeline2,timeline3,timeline4;
-	private ImageView main_menu,click,yard;
-	private Button start,back,pause,resume;
+	private ImageView main_menu,click,yard,exitBtn;
+	private Button start,exit,back,pause,resume;
 	private Scene scene1,scene2,scene3;
 	private Audio audio,menu;
 	
 	public Display() {
 		storages = new PlantStorage(table,p1);
-		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
-		click = new ImageView(new Image(ClassLoader.getSystemResource("click_to_start.gif").toString()));
+		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("pvp.png").toString()));
+		click = new ImageView(new Image(ClassLoader.getSystemResource("xplay.png").toString()));
 		yard = new ImageView(new Image(ClassLoader.getSystemResource("Background3.jpg").toString()));
+		exitBtn = new ImageView(new Image(ClassLoader.getSystemResource("exit.png").toString()));
 		audio = new Audio("background.wav"); 
 		menu = new Audio("menu.wav"); 
 		menu.play_audio();
 		back = new Button("MAIN MENU");
 		pause = new Button("PAUSE");
 		resume = new Button("RESUME");
+		exit = new Button();
+		exit.setGraphic(exitBtn);
+		exit.setStyle("-fx-background-color:transparent;");
 		start = new Button();
 		start.setGraphic(click);
 		start.setStyle("-fx-background-color:transparent;");
@@ -90,13 +95,14 @@ public class Display extends Application{
 	 @Override
 	 public void start(Stage primaryStage)  {
 		 	
-		 VBox buttonBox = new VBox();
+		 	HBox buttonBox = new HBox(20);
 			buttonBox.setPadding(new Insets(20, 20, 20, 20));
 			buttonBox.setAlignment(Pos.BOTTOM_CENTER);
-			buttonBox.getChildren().add(start);
+			buttonBox.getChildren().addAll(start,exit);
 			
-			StackPane root1 = new StackPane();
-			root1.setPrefSize(W * table_size, H * table_size);
+			VBox root1 = new VBox();
+			root1.setAlignment(Pos.CENTER);
+			root1.setPrefSize((W + 1)* table_size, H * table_size);
 			root1.getChildren().addAll(main_menu,buttonBox);
 			scene1 = new Scene(root1);
 			
@@ -129,18 +135,59 @@ public class Display extends Application{
 			root3.getChildren().addAll(resume,back);
 			scene3 = new Scene(root3);
 			
+			start.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					// TODO Auto-generated method stub
+					start.setStyle("-fx-background-color:Lightgreen;");
+					
+				}
+			});
+			start.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					// TODO Auto-generated method stub
+					start.setStyle("-fx-background-color:transparent;");
+					
+				}
+			});
 			start.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override
 				public void handle(ActionEvent event) {
 					// TODO Auto-generated method stub
-					timeline1.play();
-					timeline2.play();
-					timeline3.play();
-					timeline4.play();
 					primaryStage.setScene(scene2);
 					audio.play_audio();
 					menu.stop_audio();
+				}
+			});
+			
+			exit.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					// TODO Auto-generated method stub
+					exit.setStyle("-fx-background-color:lightpink;");
+					
+				}
+			});
+			exit.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent event) {
+					// TODO Auto-generated method stub
+					exit.setStyle("-fx-background-color:transparent;");
+					
+				}
+			});
+			exit.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					// TODO Auto-generated method stub
+					primaryStage.close();
 				}
 			});
 			back.setOnAction(new EventHandler<ActionEvent>() {
