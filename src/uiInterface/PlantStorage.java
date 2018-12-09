@@ -100,6 +100,7 @@ public class PlantStorage extends VBox {
 					public void handle(DragEvent event) {
 						if(event.getGestureSource() != tiles && event.getDragboard().hasContent(DataFormat.PLAIN_TEXT)) {
 							event.acceptTransferModes(TransferMode.MOVE);
+							System.out.println(event.getSceneX()+" "+event.getSceneY());
 						}
 						event.consume();
 					}
@@ -111,6 +112,7 @@ public class PlantStorage extends VBox {
 					public void handle(DragEvent event) {
 						if(event.getGestureSource() != tiles && event.getDragboard().hasContent(DataFormat.PLAIN_TEXT)) {
 							System.out.println("enter!!!");
+							
 						}
 						event.consume();
 					}
@@ -132,6 +134,7 @@ public class PlantStorage extends VBox {
 					public void handle(DragEvent event) {
 						Dragboard db = event.getDragboard();
 						boolean success = false;
+<<<<<<< HEAD
 							int i = (int)((event.getSceneY()-15)/120);
 							int j = (int)((event.getSceneX()-132)/120);
 							System.out.println(event.getSceneX()+" "+event.getSceneY()+","+i+" "+j);
@@ -139,6 +142,13 @@ public class PlantStorage extends VBox {
 							
 						if(db.hasString()) {
 							if(db.getContent(DataFormat.PLAIN_TEXT).equals("peashooter")) {
+=======
+							int i = (int)(Math.floor(event.getScreenY())/Display.box_h)/2;
+							int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
+							System.out.println(i+" "+j);
+						if(db.hasImage()) {
+							if(db.getImage().equals(shooter.getImage())) {
+>>>>>>> 6b81c6cee2137eb775679b96abbb810c275bedf9
 								p1.spawnPlant(new GreenBean(), i, j);
 							}
 							if(db.getContent(DataFormat.PLAIN_TEXT).equals("sunflower")) {

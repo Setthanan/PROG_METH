@@ -11,6 +11,7 @@ import uiInterface.Display;
 
 public class GreenBean extends AttackPlant {
 	private Image image = new Image(ClassLoader.getSystemResource("peashooter.gif").toString(),Display.box_w,Display.box_h,false,false);
+	public Image Peashooter = new Image(ClassLoader.getSystemResource("peashooter.png").toString());
 	private int time = 0 ;
 	public GreenBean() {
 		super("GreenBean", 10 ,"wind", 50,0,0);
