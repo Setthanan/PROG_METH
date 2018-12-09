@@ -69,6 +69,8 @@ public class Display extends Application{
 	private Thread t;
 	private boolean check;
 	
+	private GreenBean pea;
+	
 	public Display() {
 		player = new PlantStorage();
 		main_menu = new ImageView(new Image(ClassLoader.getSystemResource("first_screen.jpg").toString()));
@@ -147,10 +149,12 @@ public class Display extends Application{
 			back.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override
-				public void handle(ActionEvent event) {
-					//primaryStage.close();
-					Platform.runLater( () -> new Display().start( new Stage() ) );
+				public void handle(ActionEvent event) { // doesn't delete memory
+					primaryStage.close();
+					Platform.runLater( () -> new Display().start(new Stage()) );
 					primaryStage.setScene(scene1);
+					container.deleteBullet();
+					System.out.println("delete");
 					//menu.play_audio();
 					audio.stop_audio();
 					
@@ -162,9 +166,8 @@ public class Display extends Application{
 				public void handle(ActionEvent event) {
 					// TODO Auto-generated method stub
 					primaryStage.setScene(scene3);
+					
 					audio.pause();
-					check = true;
-					thread();
 				}
 			});
 			resume.setOnAction(new EventHandler<ActionEvent>() {

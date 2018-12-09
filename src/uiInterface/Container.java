@@ -194,4 +194,10 @@ public class Container {
 		}
 	}
 	
+	public void deleteBullet() {
+		for(int i = 0; i<bullets1.size(); i++) {
+			bullets1.remove(i);
+		}
+	}
+	
 }

@@ -21,12 +21,12 @@ public class Table extends Pane{
 	private Canvas canvas ;
 	private  final int box_w = W/(Player.collumn*2);
 	private  final int box_h = H/Player.row;
-	private final int col = Player.collumn*2;
-	private final int row = Player.row;
+	public final int col = Player.collumn*2;
+	public final int row = Player.row;
 	private Tile[][] tiles;
 	private Player p1,p2 ;
 	private Container container;
-	private class Tile extends StackPane{
+	public class Tile extends StackPane{
 		private int i,j;
 		private int dir;
 		private Plant plant;
@@ -152,8 +152,8 @@ public class Table extends Pane{
 	public Canvas getCanvas() {
 		return this.canvas;
 	}
-	public Tile getTile(int i,int j) {
-		return tiles[i][j]; 
+	public Tile[][] getTile() {
+		return tiles; 
 	}
 	public void removeFromTile(int i,int j,SolarPower obj) {
 		

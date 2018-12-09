@@ -25,6 +25,7 @@ import logic.Plant;
 import logic.Player;
 import logic.StonePlant;
 import logic.SunFlower;
+import uiInterface.Table.Tile;
 
 public class PlantStorage extends VBox {
 	///this class is suited for include error exception 
@@ -43,6 +44,9 @@ public class PlantStorage extends VBox {
 	private Player p1 = new Player(200, 20000,0,0);
 	private Player p2 = new Player(200, 20000,0,0);
 	private Table table = new Table(p1, p2);
+	
+	private Tile[][] tile = table.getTile();
+	private Tile tiles;
 	
 	
 	public PlantStorage() {
@@ -71,75 +75,81 @@ public class PlantStorage extends VBox {
 	
 	public void drag(ImageView iv) {
 		
-		iv.setOnDragDetected(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				System.out.println("grab");
-				Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
-				ClipboardContent content = new ClipboardContent();
-				content.putImage(iv.getImage());
-				db.setContent(content);
-				event.consume();
-			}
-			
-		});
+		for(int i = 0; i< table.row; i++) {
+			for(int j = 0; j<table.col; j++) {
+				tiles = tile[i][j];
 		
-		table.setOnDragOver(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				System.out.println("on drag over");
-				if(event.getGestureSource() != table && event.getDragboard().hasImage()) {
-					event.acceptTransferModes(TransferMode.MOVE);
-				}
-				event.consume();
-			}
-		});
+				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
 		
-		table.setOnDragEntered(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				if(event.getGestureSource() != table && event.getDragboard().hasImage()) {
-					System.out.println("enter!!!");
-				}
-				event.consume();
-			}
-		});
-		
-		table.setOnDragExited(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				System.out.println("exit...");
-				event.consume();
-			}
-		});
-		
-		
-		table.setOnDragDropped(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if(db.hasImage()) {
-					if(db.getImage().equals(Peashooter)) {
-						p1.spawnPlant(shooter, (int)event.getX(), (int)event.getY());
+					@Override
+					public void handle(MouseEvent event) {
+						System.out.println("grab");
+						Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
+						ClipboardContent content = new ClipboardContent();
+						content.putImage(iv.getImage());
+						db.setContent(content);
+						event.consume();
 					}
-					if(db.getImage().equals(Sunflower)) {
-						p1.spawnPlant(flower, (int)event.getSceneX(), (int)event.getSceneY());
+					
+				});
+				
+				tiles.setOnDragOver(new EventHandler<DragEvent>() {
+		
+					@Override
+					public void handle(DragEvent event) {
+						System.out.println("on drag over");
+						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+							event.acceptTransferModes(TransferMode.MOVE);
+						}
+						event.consume();
 					}
-					else {
-						p1.spawnPlant(walnut, (int)event.getSceneX(), (int)event.getSceneY());
+				});
+				
+				tiles.setOnDragEntered(new EventHandler<DragEvent>() {
+		
+					@Override
+					public void handle(DragEvent event) {
+						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+							System.out.println("enter!!!");
+						}
+						event.consume();
 					}
-					success = true;
-				}
-				event.setDropCompleted(success);
-				event.consume();
+				});
+				
+				tiles.setOnDragExited(new EventHandler<DragEvent>() {
+		
+					@Override
+					public void handle(DragEvent event) {
+						System.out.println("exit...");
+						event.consume();
+					}
+				});
+				
+				
+				tiles.setOnDragDropped(new EventHandler<DragEvent>() {
+		
+					@Override
+					public void handle(DragEvent event) {
+						Dragboard db = event.getDragboard();
+						boolean success = false;
+						if(db.hasImage()) {
+							if(db.getImage().equals(Peashooter)) {
+								p1.spawnPlant(shooter, (int)event.getX(), (int)event.getY());
+							}
+							if(db.getImage().equals(Sunflower)) {
+								p1.spawnPlant(flower, (int)event.getSceneX(), (int)event.getSceneY());
+							}
+							else {
+								p1.spawnPlant(walnut, (int)event.getSceneX(), (int)event.getSceneY());
+							}
+							success = true;
+						}
+						event.setDropCompleted(success);
+						event.consume();
+					}
+				});
 			}
-		});
+		}
 	}
 	/*public void drawPlantSlot() {
 		for(int i = 0; i < Num0fSlot ; i++) {
