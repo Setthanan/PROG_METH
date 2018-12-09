@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -199,8 +200,10 @@ public class Display extends Application{
 					timeline2.stop();
 					timeline3.stop();
 					timeline4.stop();
+					primaryStage.close();
+					Platform.runLater( () -> new Display().start(new Stage()) );
 					primaryStage.setScene(scene1);
-					menu.play_audio();
+					//menu.play_audio();
 					audio.stop_audio();
 					
 				}

@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import logic.AttackPlant;
 import logic.Bullet;
@@ -45,7 +46,7 @@ public class Table extends Pane{
 			}
 			else  this.dir = 1;
 			border.setFill(Color.TRANSPARENT);
-			border.setStroke(Color.BLACK);
+			border.setStroke(Color.TRANSPARENT);
 			getChildren().addAll(border);
 			setAlignment(Pos.CENTER);
 			setTranslateY(i*box_h);

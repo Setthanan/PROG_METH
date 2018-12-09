@@ -41,9 +41,13 @@ public class PlantStorage extends VBox {
 	private SunFlower flower = new SunFlower();
 	private StonePlant walnut = new StonePlant();
 	
+	private ArrayList<ImageView> im;
+	
 	private Player p1 ;
 	private Table table ;
 	private Tile tiles;
+	
+	private Thread t1,t2,t3;
 	
 	
 	public PlantStorage(Table table,Player p1) {
@@ -63,9 +67,9 @@ public class PlantStorage extends VBox {
 		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
 		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
 		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
-		drag(Peashooter);
-		drag(Sunflower);
-		drag(Walnut);
+		dragPea(Peashooter);
+		dragFlower(Sunflower);
+		//dragWalnut(Walnut);
 		this.storage = new ArrayList<Plant>();
 		this.plantSlot = new Canvas(1200,125);
 		
@@ -73,7 +77,7 @@ public class PlantStorage extends VBox {
 		
 	}
 	
-	public void drag(ImageView iv) {
+	public void dragPea(ImageView iv) {
 		for(int i = 0; i< table.row; i++) {
 			for(int j = 0; j<table.col/2; j++) {
 				Tile tiles = table.getTile(i,j);
@@ -99,31 +103,11 @@ public class PlantStorage extends VBox {
 						System.out.println("on drag over");
 						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
 							event.acceptTransferModes(TransferMode.MOVE);
+							System.out.println(event.getSceneX()+" "+event.getSceneY());
 						}
 						event.consume();
 					}
 				});
-				
-				tiles.setOnDragEntered(new EventHandler<DragEvent>() {
-		
-					@Override
-					public void handle(DragEvent event) {
-						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
-							System.out.println("enter!!!");
-						}
-						event.consume();
-					}
-				});
-				
-				tiles.setOnDragExited(new EventHandler<DragEvent>() {
-		
-					@Override
-					public void handle(DragEvent event) {
-						System.out.println("exit...");
-						event.consume();
-					}
-				});
-				
 				
 				tiles.setOnDragDropped(new EventHandler<DragEvent>() {
 					
@@ -135,16 +119,122 @@ public class PlantStorage extends VBox {
 							int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
 							System.out.println(i+" "+j);
 						if(db.hasImage()) {
-							if(db.getImage().equals(Peashooter)) {
-								p1.spawnPlant(new GreenBean(), i, j);
-							}
-							if(db.getImage().equals(Sunflower)) {
-								p1.spawnPlant(new SunFlower(), i, j);
-							}
-							else {
-								p1.spawnPlant(new StonePlant(), i, j);
+							p1.spawnPlant(new GreenBean(), i, j);
+							success = true;
+						}
+						event.setDropCompleted(success);
+						event.consume();
+					}
+				});
+			}
+		}
+	}
+	
+	public void dragFlower(ImageView iv) {
+		t2 = new Thread(() -> {
+				try {
+					for(int i = 0; i< table.row; i++) {
+						for(int j = 0; j<table.col/2; j++) {
+							Tile tiles = table.getTile(i,j);
+							System.out.println(i+","+j+" "+tiles);
+							iv.setOnDragDetected(new EventHandler<MouseEvent>() {
+					
+								@Override
+								public void handle(MouseEvent event) {
+									System.out.println("grab");
+									Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
+									ClipboardContent content = new ClipboardContent();
+									content.putImage(iv.getImage());
+									db.setContent(content);
+									event.consume();
+								}
 								
-							}
+							});
+							if(tiles == null) return;
+							tiles.setOnDragOver(new EventHandler<DragEvent>() {
+					
+								@Override
+								public void handle(DragEvent event) {
+									System.out.println("on drag over");
+									if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+										event.acceptTransferModes(TransferMode.MOVE);
+										System.out.println(event.getSceneX()+" "+event.getSceneY());
+									}
+									event.consume();
+								}
+							});
+							
+							tiles.setOnDragDropped(new EventHandler<DragEvent>() {
+								
+								@Override
+								public void handle(DragEvent event) {
+									Dragboard db = event.getDragboard();
+									boolean success = false;
+										int i = (int)(Math.floor(event.getScreenY())/Display.box_h)/2;
+										int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
+										System.out.println(i+" "+j);
+									if(db.hasImage()) {
+										p1.spawnPlant(new SunFlower(), i, j);
+										success = true;
+									}
+									event.setDropCompleted(success);
+									event.consume();
+								}
+							});
+						}
+					}
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		});
+		t2.start();	
+	}
+	public void dragWalnut(ImageView iv) {
+		for(int i = 0; i< table.row; i++) {
+			for(int j = 0; j<table.col/2; j++) {
+				Tile tiles = table.getTile(i,j);
+				System.out.println(i+","+j+" "+tiles);
+				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
+		
+					@Override
+					public void handle(MouseEvent event) {
+						System.out.println("grab");
+						Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
+						ClipboardContent content = new ClipboardContent();
+						content.putImage(iv.getImage());
+						db.setContent(content);
+						event.consume();
+					}
+					
+				});
+				if(tiles == null) return;
+				tiles.setOnDragOver(new EventHandler<DragEvent>() {
+		
+					@Override
+					public void handle(DragEvent event) {
+						System.out.println("on drag over");
+						if(event.getGestureSource() != tiles && event.getDragboard().hasImage()) {
+							event.acceptTransferModes(TransferMode.MOVE);
+							System.out.println(event.getSceneX()+" "+event.getSceneY());
+						}
+						event.consume();
+					}
+				});
+				
+				tiles.setOnDragDropped(new EventHandler<DragEvent>() {
+					
+					@Override
+					public void handle(DragEvent event) {
+						Dragboard db = event.getDragboard();
+						boolean success = false;
+							int i = (int)(Math.floor(event.getScreenY())/Display.box_h)/2;
+							int j = (int)(Math.floor(event.getScreenX())/Display.box_w)/2;
+							System.out.println(i+" "+j);
+						if(db.hasImage()) {
+							p1.spawnPlant(new StonePlant(), i, j);
 							success = true;
 						}
 						event.setDropCompleted(success);
