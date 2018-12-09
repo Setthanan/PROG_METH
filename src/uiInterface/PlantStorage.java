@@ -48,6 +48,7 @@ public class PlantStorage extends VBox {
 		this.p1 = p1;
 		this.hpBar = new ProgressBar(p1.getPlayerHp() / p1.getPlayerMaxHp());
 		hpBar.setPrefSize(100, 20);
+		hpBar.setStyle("-fx-accent: red; ");
 		super.setPadding(new Insets(30, 10, 30, 10));
 		setAlignment(Pos.CENTER);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
@@ -65,12 +66,12 @@ public class PlantStorage extends VBox {
 		drag(Peashooter, "peashooter");
 		drag(Sunflower, "sunflower");
 		drag(Walnut, "walnut");
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(Sun, solar);
+		HBox hbox = new HBox();
+		hbox.getChildren().addAll(Sun, solar);
 		this.storage = new ArrayList<Plant>();
 		
 
-		getChildren().addAll(player, score, hp, hpBar, vbox, Sunflower, Peashooter, Walnut);
+		getChildren().addAll(player, score, hp, hpBar, hbox, Sunflower, Peashooter, Walnut);
 
 	}
 
@@ -199,8 +200,10 @@ public class PlantStorage extends VBox {
 	}
 
 	public void updateHpBar() {
-		if (p1.getPlayerHp() <= 0)
+		if (p1.getPlayerHp() <= 0) {
+			hpBar.setProgress(0);
 			return;
+		}
 		hpBar.setProgress(p1.getPlayerHp() / p1.getPlayerMaxHp());
 	}
 

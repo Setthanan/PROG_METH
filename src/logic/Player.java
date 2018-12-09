@@ -67,6 +67,7 @@ public class Player {
 		if (damage < 0)
 			damage = 0;
 		this.playerHp -= damage;
+		if(this.playerHp <0) this.playerHp = 0;
 	}
 
 	public boolean isPlayerAlive() {

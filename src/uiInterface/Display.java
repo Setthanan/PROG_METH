@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -28,8 +29,7 @@ import javafx.util.Duration;
 
 public class Display extends Application {
 
-	// StackPane root = new StackPane();
-	private Player p1 = new Player(200, 2000, 0, 0);
+	private Player p1 = new Player(20, 2000, 0, 0);
 	private Player p2 = new Player(200, 200000, 0, 0);
 	private Counter c1 = new Counter(0, 500);
 	private Counter c2 = new Counter(600, 1100);
@@ -47,7 +47,7 @@ public class Display extends Application {
 	private Timeline timeline1, timeline2, timeline3, timeline4;
 	private ImageView main_menu, click, yard, exitBtn;
 	private Button start, exit, back, pause, resume;
-	private Scene scene1, scene2, scene3;
+	private Scene scene1, scene2, scene3,scene4;
 	private Audio audio, menu;
 
 	public Display() {
@@ -102,7 +102,7 @@ public class Display extends Application {
 		buttonBox2.setAlignment(Pos.CENTER_RIGHT);
 		buttonBox2.getChildren().addAll(pause, resume, back);
 
-		VBox root2 = new VBox(5);
+		VBox root2 = new VBox();
 		root2.setPadding(new Insets(15, 15, 15, 15));
 		root2.getChildren().addAll(playScene, buttonBox2);
 		scene2 = new Scene(root2);
@@ -114,7 +114,23 @@ public class Display extends Application {
 		root3.setPadding(new Insets(15, 15, 15, 15));
 		root3.getChildren().addAll(resume, back);
 		scene3 = new Scene(root3);
-
+		
+		StackPane lost = new StackPane();
+		Label label = new  Label("YOU LOST");
+		label.setScaleX(5);
+		label.setScaleY(5);
+		label.setTextFill(Color.WHITE);
+		VBox root4 = new VBox(10);
+		root4.setAlignment(Pos.CENTER);
+		root4.setTranslateY(200);
+		root4.getChildren().add(back);
+		lost.getChildren().add(label);
+		lost.getChildren().add(root4);
+		lost.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
+		lost.setPrefSize(1440 ,600);
+		scene4 = new Scene(lost);
+		scene4.setFill(Color.BLACK);
+		
 		start.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -178,9 +194,10 @@ public class Display extends Application {
 				timeline2.stop();
 				timeline3.stop();
 				timeline4.stop();
-				/*primaryStage.close();
-				Platform.runLater(() -> new Display().start(new Stage()));
-				*/
+				/*
+				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
+				 * Stage()));
+				 */
 				primaryStage.setScene(scene1);
 				// menu.play_audio();
 				audio.stop_audio();
@@ -350,7 +367,13 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-
+				if(p1.getPlayerHp() == 0) {
+					timeline1.stop();
+					timeline2.stop();
+					timeline3.stop();
+					timeline4.stop();
+					primaryStage.setScene(scene4);
+				}
 				table.updateTable();
 				container.updateSolarPower(table);
 				container.updateCollision();
@@ -359,6 +382,7 @@ public class Display extends Application {
 				p2.detectPlant();
 				container.updateOutOfRangeBullet(p1);
 				storages.updateStorage();
+				
 
 			}
 
@@ -367,7 +391,7 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-
+				
 			}
 
 		};
@@ -379,6 +403,9 @@ public class Display extends Application {
 
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
+				
+					
+				
 			}
 
 		};
@@ -401,11 +428,8 @@ public class Display extends Application {
 		timeline2.setCycleCount(Animation.INDEFINITE);
 		timeline3.setCycleCount(Animation.INDEFINITE);
 		timeline4.setCycleCount(Animation.INDEFINITE);
-
-		timeline1.play();
-		timeline2.play();
-		timeline3.play();
-		timeline4.play();
+		
+		
 
 	}
 
