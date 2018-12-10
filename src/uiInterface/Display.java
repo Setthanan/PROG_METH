@@ -19,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -32,7 +31,7 @@ import javafx.util.Duration;
 
 public class Display extends Application {
 
-	private Player p1 = new Player(20, 2000, 0, 0);
+	private Player p1 = new Player(2, 2000, 0, 0);
 	private Player p2 = new Player(20, 200000, 0, 0);
 	private static final int H = 5;
 	private static final int W = 12;
@@ -46,8 +45,8 @@ public class Display extends Application {
 	private Timeline timeline1, timeline2, timeline3, timeline4, timeline5;
 	private ImageView main_menu, click, yard, exitBtn;
 	private Button start, exit, back, pause, resume, restart;
-	private Scene scene1, scene2, scene3, scene4;
-	private Audio audio, menu, lose, winGame,stopGame;
+	private Scene scene1, scene2, scene3, scene4, scene5;
+	private Audio audio, menu, lose, winGame, stopGame;
 	private ProgressBar enemyHpBar = new ProgressBar();
 
 	public Display() {
@@ -97,17 +96,17 @@ public class Display extends Application {
 
 		StackPane tile = new StackPane();
 		tile.getChildren().addAll(yard, vbox);
-		
+
 		VBox enemyBox = new VBox();
 		enemyBox.setAlignment(Pos.CENTER);
 		enemyBox.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
 		enemyBox.getChildren().addAll(enemyHpBar);
 
 		HBox playScene = new HBox();
-		//playScene.setPrefSize((W+1) * table_size, H * table_size);
+		// playScene.setPrefSize((W+1) * table_size, H * table_size);
 		// playScene.setPadding(new Insets(15, 15, 15, 15));
 		playScene.setAlignment(Pos.CENTER);
-		playScene.getChildren().addAll(storages, tile,enemyBox);
+		playScene.getChildren().addAll(storages, tile, enemyBox);
 
 		HBox buttonBox2 = new HBox(10);
 		buttonBox2.setAlignment(Pos.CENTER);
@@ -140,7 +139,8 @@ public class Display extends Application {
 		lost.getChildren().add(root4);
 		lost.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		lost.setPrefSize(W * table_size, H * table_size);
-		
+		scene4 = new Scene(lost);
+
 		StackPane win = new StackPane();
 		Label winText = new Label("YOU WIN");
 		winText.setScaleX(5);
@@ -150,15 +150,13 @@ public class Display extends Application {
 		root5.setAlignment(Pos.CENTER);
 		root5.setTranslateY(200);
 
-		//root5.getChildren().add();
+		// root5.getChildren().add();
 		win.getChildren().add(winText);
 		win.getChildren().add(root5);
 		win.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		win.setPrefSize(W * table_size, H * table_size);
-		
-		
-		
-		
+		scene5 = new Scene(win);
+
 		start.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -245,7 +243,7 @@ public class Display extends Application {
 				timeline3.stop();
 				timeline4.stop();
 				timeline5.stop();
-				
+
 				/*
 				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
 				 * Stage()));
@@ -339,20 +337,20 @@ public class Display extends Application {
 					timeline3.stop();
 					timeline4.stop();
 					timeline5.stop();
-					primaryStage.setScene(new Scene(lost));
-					lose.play_once();
+					primaryStage.setScene(scene4);
+					// lose.play_once();
 					audio.stop_audio();
 				}
-				if(enemyHpBar.getProgress() == 0) {
+				if (enemyHpBar.getProgress() == 0) {
 					timeline1.stop();
 					timeline2.stop();
 					timeline3.stop();
 					timeline4.stop();
 					timeline5.stop();
-					primaryStage.setScene(new Scene(win));
+					primaryStage.setScene(scene5);
 					winGame.play_once();
 					audio.stop_audio();
-					
+
 				}
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
@@ -374,7 +372,7 @@ public class Display extends Application {
 		timeline4 = new Timeline();
 		timeline5 = new Timeline();
 
-		KeyFrame key1 = new KeyFrame(Duration.millis(10), event2);
+		KeyFrame key1 = new KeyFrame(Duration.millis(1), event2);
 		KeyFrame key2 = new KeyFrame(Duration.millis(10000), event1);
 		KeyFrame key3 = new KeyFrame(Duration.millis(1), event4);
 		KeyFrame key4 = new KeyFrame(Duration.millis(15000), event3);
