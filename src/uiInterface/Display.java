@@ -356,7 +356,7 @@ public class Display extends Application {
 					timeline5.stop();
 					enemyHpBar.setProgress(20);
 					primaryStage.setScene(scene5);
-					winGame.play_once();
+					winGame.play_audio();;
 					audio.stop_audio();
 
 				}
