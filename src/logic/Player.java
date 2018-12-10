@@ -49,7 +49,7 @@ public class Player {
 			return;
 		}
 		// prevent sunPower be negative ;
-		if (playerPlant[i][j] instanceof Plant)
+		if (playerPlant[i][j] != null)
 			return;
 		// prevent input the same place
 		playerPlant[i][j] = obj;
@@ -59,9 +59,6 @@ public class Player {
 		System.out.println("Plant was spawned");
 	}
 
-	public void increaseSunPower() {
-		this.sunPower += 1;
-	}
 
 	public void directDamage(double damage) {
 		if (damage < 0)

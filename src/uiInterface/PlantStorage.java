@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -63,9 +64,9 @@ public class PlantStorage extends VBox {
 		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
 		Walnut = new ImageView(new Image(ClassLoader.getSystemResource("walnut.png").toString()));
 		Sun = new ImageView(new Image(ClassLoader.getSystemResource("sun.gif").toString()));
-		drag(Peashooter, "peashooter");
-		drag(Sunflower, "sunflower");
-		drag(Walnut, "walnut");
+		drag(Peashooter, "peashooter",new GreenBean());
+		drag(Sunflower, "sunflower",new SunFlower());
+		drag(Walnut, "walnut",new StonePlant());
 		HBox hbox = new HBox();
 		hbox.getChildren().addAll(Sun, solar);
 		this.storage = new ArrayList<Plant>();
@@ -75,16 +76,22 @@ public class PlantStorage extends VBox {
 
 	}
 
-	public void drag(ImageView iv, String name) {
+	public void drag(ImageView iv, String name,Plant plant) {
+		iv.setCursor(Cursor.CLOSED_HAND);
 		for (int i = 0; i < table.row; i++) {
 			for (int j = 0; j < table.col / 2; j++) {
+				
 				Tile tiles = table.getTile(i, j);
-				System.out.println(i + "," + j + " " + tiles);
 				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
-
+					
 					@Override
 					public void handle(MouseEvent event) {
 						System.out.println("grab");
+						if(p1.getSunPower() < plant.getCost()) {
+							return;
+						}
+						
+						
 						Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
 						ClipboardContent content = new ClipboardContent();
 						content.putString(name);
@@ -215,5 +222,7 @@ public class PlantStorage extends VBox {
 		updateHpBar();
 		updateSolarPower();
 	}
-
+	public ProgressBar getProgressBar() {
+		return this.hpBar;
+	}
 }

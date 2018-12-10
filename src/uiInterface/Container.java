@@ -60,7 +60,6 @@ public class Container {
 						Bullet temp = ((AttackPlant) p2.playerPlant[i][j]).getBullet();
 						if (!bullets2.contains(temp)) {
 							bullets2.add(((AttackPlant) p2.playerPlant[i][j]).getBullet());
-							System.out.println("check2");
 						}
 					}
 				}
@@ -102,13 +101,15 @@ public class Container {
 		}
 	}
 
-	public void updateOutOfRangeBullet(Player p1) {
+	public void updateOutOfRangeBullet() {
 		for (int i = 0; i < bullets1.size(); i++) {
-			if (bullets1.get(i).getX() > 1000)
+			if (bullets1.get(i).getX() > 1500) {
+				p2.directDamage(bullets1.get(i).getOwner().calDamage(p2));
 				bullets1.remove(bullets1.get(i));
+			}
 		}
 		for (int i = 0; i < bullets2.size(); i++) {
-			if (bullets2.get(i).getX() < -1000) {
+			if (bullets2.get(i).getX() < -1500) {
 				p1.directDamage(bullets2.get(i).getOwner().calDamage(p1));
 				bullets2.remove(bullets2.get(i));
 			}
@@ -152,7 +153,6 @@ public class Container {
 						((SunFlower) p1.playerPlant[i][j]).getSolarPower().setJ(j);
 						solars.add(((SunFlower) p1.playerPlant[i][j]).getSolarPower());
 						table.addToTile(i, j, ((SunFlower) p1.playerPlant[i][j]).getSolarPower());
-						System.out.println("Done");
 					}
 				}
 
@@ -168,11 +168,8 @@ public class Container {
 
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println(event.getSource());
-					System.out.println(((SolarPower) event.getSource()).getIsClicked());
 					if (event.getSource() instanceof SolarPower) {
 						((SolarPower) event.getSource()).setIsClicked(true);
-						System.out.println(((SolarPower) event.getSource()).getIsClicked());
 					}
 
 				}
@@ -184,8 +181,6 @@ public class Container {
 					table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));
 				// solars.get(i).setFill(Color.TRANSPARENT);
 
-				System.out.println("removed");
-				System.out.println(solars.get(i).getI());
 				int m = solars.get(i).getI();
 				int n = solars.get(i).getJ();
 				System.out.println("this" + m);

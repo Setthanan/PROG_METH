@@ -2,6 +2,8 @@ package uiInterface;
 
 import logic.*;
 
+import java.sql.Time;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -30,25 +33,22 @@ import javafx.util.Duration;
 public class Display extends Application {
 
 	private Player p1 = new Player(20, 2000, 0, 0);
-	private Player p2 = new Player(200, 200000, 0, 0);
-	private Counter c1 = new Counter(0, 500);
-	private Counter c2 = new Counter(600, 1100);
+	private Player p2 = new Player(20, 200000, 0, 0);
 	private static final int H = 5;
 	private static final int W = 12;
 	public static final int table_size = 120;
 	public static final int box_w = (W * table_size) / (Player.collumn * 2);
 	public static final int box_h = (H * table_size) / Player.row;
-	private boolean goUp1, goDown1, goLeft1, goRight1, digit1 = false;
-	private boolean goUp2, goDown2, goLeft2, goRight2, num1 = false;
 	private PlantStorage storages;
 	private Table table = new Table(p1, p2);
 	private Container container = new Container(p1, p2);
 	private RandomSpawn com = new RandomSpawn(p2);
-	private Timeline timeline1, timeline2, timeline3, timeline4;
+	private Timeline timeline1, timeline2, timeline3, timeline4, timeline5;
 	private ImageView main_menu, click, yard, exitBtn;
-	private Button start, exit, back, pause, resume;
-	private Scene scene1, scene2, scene3,scene4;
+	private Button start, exit, back, pause, resume, restart;
+	private Scene scene1, scene2, scene3, scene4;
 	private Audio audio, menu;
+	private ProgressBar enemyHpBar = new ProgressBar();
 
 	public Display() {
 		storages = new PlantStorage(table, p1);
@@ -60,6 +60,7 @@ public class Display extends Application {
 		menu = new Audio("menu.wav");
 		menu.play_audio();
 		back = new Button("MAIN MENU");
+		restart = new Button("RESTART");
 		pause = new Button("PAUSE");
 		resume = new Button("RESUME");
 		exit = new Button();
@@ -68,6 +69,7 @@ public class Display extends Application {
 		start = new Button();
 		start.setGraphic(click);
 		start.setStyle("-fx-background-color:transparent;");
+		enemyHpBar.setProgress(p2.getPlayerHp() / p2.getPlayerMaxHp());
 	}
 
 	/*
@@ -104,7 +106,7 @@ public class Display extends Application {
 
 		VBox root2 = new VBox();
 		root2.setPadding(new Insets(15, 15, 15, 15));
-		root2.getChildren().addAll(playScene, buttonBox2);
+		root2.getChildren().addAll(playScene, buttonBox2, enemyHpBar);
 		scene2 = new Scene(root2);
 
 		VBox root3 = new VBox(10);
@@ -114,22 +116,39 @@ public class Display extends Application {
 		root3.setPadding(new Insets(15, 15, 15, 15));
 		root3.getChildren().addAll(resume, back);
 		scene3 = new Scene(root3);
-		
+
 		StackPane lost = new StackPane();
-		Label label = new  Label("YOU LOST");
-		label.setScaleX(5);
-		label.setScaleY(5);
-		label.setTextFill(Color.WHITE);
+		Label lostText = new Label("YOU LOST");
+		lostText.setScaleX(5);
+		lostText.setScaleY(5);
+		lostText.setTextFill(Color.WHITE);
 		VBox root4 = new VBox(10);
 		root4.setAlignment(Pos.CENTER);
 		root4.setTranslateY(200);
-		root4.getChildren().add(back);
-		lost.getChildren().add(label);
+
+		root4.getChildren().add(restart);
+		lost.getChildren().add(lostText);
 		lost.getChildren().add(root4);
-		lost.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
-		lost.setPrefSize(1440 ,600);
-		scene4 = new Scene(lost);
-		scene4.setFill(Color.BLACK);
+		lost.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		lost.setPrefSize(1440, 600);
+		
+		StackPane win = new StackPane();
+		Label winText = new Label("YOU WIN");
+		winText.setScaleX(5);
+		winText.setScaleY(5);
+		winText.setTextFill(Color.WHITE);
+		VBox root5 = new VBox(10);
+		root5.setAlignment(Pos.CENTER);
+		root5.setTranslateY(200);
+
+		//root5.getChildren().add();
+		win.getChildren().add(winText);
+		win.getChildren().add(root5);
+		win.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		win.setPrefSize(1440, 600);
+		
+		
+		
 		
 		start.setOnMouseEntered(new EventHandler<MouseEvent>() {
 
@@ -157,6 +176,8 @@ public class Display extends Application {
 				timeline2.playFromStart();
 				timeline3.playFromStart();
 				timeline4.playFromStart();
+				timeline5.playFromStart();
+
 				primaryStage.setScene(scene2);
 				audio.play_audio();
 				menu.stop_audio();
@@ -194,6 +215,28 @@ public class Display extends Application {
 				timeline2.stop();
 				timeline3.stop();
 				timeline4.stop();
+				timeline5.stop();
+
+				/*
+				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
+				 * Stage()));
+				 */
+				primaryStage.setScene(scene1);
+				// menu.play_audio();
+				audio.stop_audio();
+
+			}
+		});
+		restart.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				timeline1.stop();
+				timeline2.stop();
+				timeline3.stop();
+				timeline4.stop();
+				timeline5.stop();
+				
 				/*
 				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
 				 * Stage()));
@@ -212,6 +255,7 @@ public class Display extends Application {
 				timeline2.pause();
 				timeline3.pause();
 				timeline4.pause();
+				timeline5.pause();
 				primaryStage.setScene(scene3);
 				audio.pause();
 			}
@@ -224,6 +268,7 @@ public class Display extends Application {
 				timeline2.play();
 				timeline3.play();
 				timeline4.play();
+				timeline5.play();
 				primaryStage.setScene(scene2);
 				audio.play_audio();
 			}
@@ -234,121 +279,13 @@ public class Display extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.show();
 
-		scene2.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				System.out.println(event.getCode());
-				switch (event.getCode()) {
-				case UP:
-					c2.moveCounter(0, -1);
-					break;
-				case DOWN:
-					c2.moveCounter(0, 1);
-					break;
-				case LEFT:
-					goLeft1 = true;
-					break;
-				case RIGHT:
-					goRight1 = true;
-					break;
-				case W:
-					goUp2 = true;
-					break;
-				case S:
-					goDown2 = true;
-					break;
-				case A:
-					goLeft2 = true;
-					break;
-				case D:
-					goRight2 = true;
-					break;
-				case DIGIT1:
-					digit1 = true;
-					break;
-				case NUMPAD1:
-					num1 = true;
-					break;
-				}
-			}
-
-		});
-		scene2.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				switch (event.getCode()) {
-				case UP:
-					goUp1 = false;
-					break;
-				case DOWN:
-					goDown1 = false;
-					break;
-				case LEFT:
-					goLeft1 = false;
-					break;
-				case RIGHT:
-					goRight1 = false;
-					break;
-				case W:
-					goUp2 = false;
-					break;
-				case S:
-					goDown2 = false;
-					break;
-				case A:
-					goLeft2 = false;
-					break;
-				case D:
-					goRight2 = false;
-					break;
-				case DIGIT1:
-					digit1 = false;
-					break;
-				case NUMPAD1:
-					num1 = false;
-					break;
-				}
-			}
-		});
-
-		EventHandler event = new EventHandler() {
+		EventHandler event1 = new EventHandler() {
 
 			@Override
 			public void handle(Event event) {
-				// TODO Auto-generated method stub
-
-				if (goUp1)
-					c2.moveCounter(0, -1);
-				if (goDown1)
-					c2.moveCounter(0, 1);
-				if (goLeft1)
-					c2.moveCounter(-1, 0);
-				if (goRight1)
-					c2.moveCounter(1, 0);
-				if (goUp2)
-					;
-				if (goDown2)
-					;
-				if (goLeft2)
-					c1.moveCounter(-1, 0);
-				if (goRight2)
-					c1.moveCounter(1, 0);
-				if (digit1) {
-
-					for (int i = 0; i < Player.row; i++) {
-						for (int j = 0; j < Player.collumn; j++) {
-
-							p2.spawnPlant(new GreenBean(), i, j);
-						}
-					}
-
-				}
-				if (num1) {
-
-				}
-
+				com.addRand(3);
+				com.updateToTable();
+				container.addBulletContainer();
 			}
 
 		};
@@ -356,10 +293,16 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				// com.addRand(3);
-				// com.updateToTable();
-				container.addSolarPower(table);
-				container.addBulletContainer();
+
+				table.updateTable();
+				container.updateSolarPower(table);
+				container.updateCollision();
+				container.updateBulletMovement(1);
+				p1.detectPlant();
+				p2.detectPlant();
+				container.updateOutOfRangeBullet();
+				storages.updateStorage();
+
 			}
 
 		};
@@ -367,23 +310,8 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				if(p1.getPlayerHp() == 0) {
-					timeline1.stop();
-					timeline2.stop();
-					timeline3.stop();
-					timeline4.stop();
-					primaryStage.setScene(scene4);
-				}
-				table.updateTable();
-				container.updateSolarPower(table);
-				container.updateCollision();
-				container.updateBulletMovement(1);
-				p1.detectPlant();
-				p2.detectPlant();
-				container.updateOutOfRangeBullet(p1);
-				storages.updateStorage();
-				
-
+				container.addSolarPower(table);
+				p1.setSolarPower(p1.getSunPower() + 10);
 			}
 
 		};
@@ -391,7 +319,26 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				
+				table.getCanvas().getGraphicsContext2D().clearRect(0, 0, 1500, 600);
+				if (storages.getProgressBar().getProgress() == 0) {
+					timeline1.stop();
+					timeline2.stop();
+					timeline3.stop();
+					timeline4.stop();
+					timeline5.stop();
+					primaryStage.setScene(new Scene(lost));
+				}
+				if(enemyHpBar.getProgress() == 0) {
+					timeline1.stop();
+					timeline2.stop();
+					timeline3.stop();
+					timeline4.stop();
+					timeline5.stop();
+					primaryStage.setScene(new Scene(win));
+				}
+				container.drawBullet(table.getCanvas().getGraphicsContext2D());
+				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
+
 			}
 
 		};
@@ -399,13 +346,7 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				table.getCanvas().getGraphicsContext2D().clearRect(0, 0, 1500, 600);
-
-				container.drawBullet(table.getCanvas().getGraphicsContext2D());
-				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
-				
-					
-				
+				enemyHpBar.setProgress(p2.getPlayerHp() / p2.getPlayerMaxHp());
 			}
 
 		};
@@ -413,23 +354,24 @@ public class Display extends Application {
 		timeline2 = new Timeline();
 		timeline3 = new Timeline();
 		timeline4 = new Timeline();
+		timeline5 = new Timeline();
 
-		KeyFrame key1 = new KeyFrame(Duration.millis(100), event);
-		KeyFrame key2 = new KeyFrame(Duration.millis(10000), event2);
-		KeyFrame key3 = new KeyFrame(Duration.millis(10), event3);
-		KeyFrame key4 = new KeyFrame(Duration.millis(10000), event4);
-		KeyFrame key5 = new KeyFrame(Duration.millis(1), event5);
+		KeyFrame key1 = new KeyFrame(Duration.millis(10), event2);
+		KeyFrame key2 = new KeyFrame(Duration.millis(10000), event1);
+		KeyFrame key3 = new KeyFrame(Duration.millis(1), event4);
+		KeyFrame key4 = new KeyFrame(Duration.millis(15000), event3);
+		KeyFrame key5 = new KeyFrame(Duration.millis(15000), event5);
 		timeline1.getKeyFrames().addAll(key1);
 		timeline2.getKeyFrames().addAll(key2);
 		timeline3.getKeyFrames().addAll(key3);
-		timeline4.getKeyFrames().addAll(key5);
+		timeline4.getKeyFrames().addAll(key4);
+		timeline5.getKeyFrames().addAll(key5);
 
 		timeline1.setCycleCount(Animation.INDEFINITE);
 		timeline2.setCycleCount(Animation.INDEFINITE);
 		timeline3.setCycleCount(Animation.INDEFINITE);
 		timeline4.setCycleCount(Animation.INDEFINITE);
-		
-		
+		timeline5.setCycleCount(Animation.INDEFINITE);
 
 	}
 

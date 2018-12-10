@@ -57,10 +57,11 @@ public class Table extends Pane {
 			if (j >= col / 2 && plant != null) {
 				this.dir = -1;
 				this.plant.setX(j * box_w);
-				if (this.plant instanceof AttackPlant) {
-					((AttackPlant) this.plant).getBullet().setX(this.plant.getX());
+				
+			}
+			if (this.plant instanceof AttackPlant) {
+				((AttackPlant) this.plant).getBullet().setX(this.plant.getX());
 
-				}
 			}
 		}
 

@@ -13,7 +13,7 @@ public class RandomSpawn {
 		this.plantList = new ArrayList<Plant>();
 		plantList.add(new StonePlant());
 		plantList.add(new GreenBean());
-		plantList.add(new SunFlower());
+		//plantList.add(new SunFlower());
 		
 	}
 	public void addRand(int num) {
@@ -25,7 +25,7 @@ public class RandomSpawn {
 			}
 			else {
 				randNum = rnd.nextInt(plantList.size());
-				System.out.println(randNum);
+				//System.out.println(randNum);
 			}
 			rand.add(plantList.get((randNum)));
 		}
@@ -34,14 +34,29 @@ public class RandomSpawn {
 		return true;
 	}
 	public void updateToTable() {
-		addRand(3);
+		addRand(1);
 		System.out.println();
 		for(int i = 0; i < rand.size();i++) {
 			Random rnd = new Random();
 			int randi = rnd.nextInt(Player.row);
 			int randj = rnd.nextInt(Player.collumn);
-			player.spawnPlant( rand.get(rand.size()-1), randi, randj);
-			rand.remove(i);
+			if(rand.get(i) instanceof GreenBean) {
+				player.spawnPlant( new GreenBean(), randi, randj);
+				rand.remove(i);
+				continue;
+			}
+			if(rand.get(i) instanceof SunFlower) {
+				player.spawnPlant( new SunFlower(), randi, randj);
+				rand.remove(i);
+				continue;
+			}
+			if(rand.get(i) instanceof StonePlant) {
+				player.spawnPlant( new StonePlant(), randi, randj);
+				rand.remove(i);
+				continue;
+			}
+			System.out.println(player.playerPlant[randi][randj]);
+			
 		}
 	}
 }
