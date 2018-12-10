@@ -31,8 +31,8 @@ import javafx.util.Duration;
 
 public class Display extends Application {
 
-	private Player p1 = new Player(2, 2000, 0, 0);
-	private Player p2 = new Player(2, 200000, 0, 0);
+	private Player p1 = new Player(150, 1500, 0, 0);
+	private Player p2 = new Player(150, 200000000, 0, 0);
 	private static final int H = 5;
 	private static final int W = 12;
 	public static final int table_size = 120;
@@ -300,7 +300,7 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				com.addRand(2);
+				com.addRand(3);
 				com.updateToTable();
 				container.addBulletContainer();
 			}

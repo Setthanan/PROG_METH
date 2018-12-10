@@ -103,7 +103,7 @@ public class Container {
 
 	public void updateOutOfRangeBullet() {
 		for (int i = 0; i < bullets1.size(); i++) {
-			if (bullets1.get(i).getX() > 1440) {
+			if (bullets1.get(i).getX() > 1400) {
 				p2.directDamage(bullets1.get(i).getOwner().calDamage(p2));
 				bullets1.remove(bullets1.get(i));
 			}

@@ -10,7 +10,7 @@ public class GreenBean extends AttackPlant {
 	public Image Peashooter = new Image(ClassLoader.getSystemResource("peashooter.png").toString());
 
 	public GreenBean() {
-		super("GreenBean", 7, "wind", 100, 0, 0);
+		super("GreenBean", 5, "wind", 100, 0, 0);
 	}
 
 	@Override

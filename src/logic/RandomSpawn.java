@@ -33,6 +33,7 @@ public class RandomSpawn {
 	}
 
 	public void updateToTable() {
+		addRand(1);
 		System.out.println();
 		for (int i = 0; i < rand.size(); i++) {
 			Random rnd = new Random();

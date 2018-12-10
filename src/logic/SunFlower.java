@@ -12,7 +12,7 @@ public class SunFlower extends SpecialPlant {
 	private boolean state;
 
 	public SunFlower() {
-		super("SunFlower", "fire", 5, 50, 0, 0);
+		super("SunFlower", "fire", 3, 50, 0, 0);
 		this.solar = new SolarPower(x, y);
 		this.state = true;
 	}
