@@ -47,7 +47,7 @@ public class Display extends Application {
 	private ImageView main_menu, click, yard, exitBtn;
 	private Button start, exit, back, pause, resume, restart;
 	private Scene scene1, scene2, scene3, scene4;
-	private Audio audio, menu;
+	private Audio audio, menu, lose, winGame,stopGame;
 	private ProgressBar enemyHpBar = new ProgressBar();
 
 	public Display() {
@@ -58,6 +58,9 @@ public class Display extends Application {
 		exitBtn = new ImageView(new Image(ClassLoader.getSystemResource("exit.png").toString()));
 		audio = new Audio("background.wav");
 		menu = new Audio("menu.wav");
+		winGame = new Audio("game_end.wav");
+		lose = new Audio("atebrains.wav");
+		stopGame = new Audio("chomp.wav");
 		menu.play_audio();
 		back = new Button("MAIN MENU");
 		restart = new Button("RESTART");
@@ -94,19 +97,25 @@ public class Display extends Application {
 
 		StackPane tile = new StackPane();
 		tile.getChildren().addAll(yard, vbox);
+		
+		VBox enemyBox = new VBox();
+		enemyBox.setAlignment(Pos.CENTER);
+		enemyBox.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+		enemyBox.getChildren().addAll(enemyHpBar);
 
 		HBox playScene = new HBox();
-		playScene.setPrefSize(W * table_size, H * table_size);
+		//playScene.setPrefSize((W+1) * table_size, H * table_size);
 		// playScene.setPadding(new Insets(15, 15, 15, 15));
-		playScene.getChildren().addAll(storages, tile);
+		playScene.setAlignment(Pos.CENTER);
+		playScene.getChildren().addAll(storages, tile,enemyBox);
 
 		HBox buttonBox2 = new HBox(10);
-		buttonBox2.setAlignment(Pos.CENTER_RIGHT);
+		buttonBox2.setAlignment(Pos.CENTER);
 		buttonBox2.getChildren().addAll(pause, resume, back);
 
 		VBox root2 = new VBox();
 		root2.setPadding(new Insets(15, 15, 15, 15));
-		root2.getChildren().addAll(playScene, buttonBox2, enemyHpBar);
+		root2.getChildren().addAll(playScene, buttonBox2);
 		scene2 = new Scene(root2);
 
 		VBox root3 = new VBox(10);
@@ -130,7 +139,7 @@ public class Display extends Application {
 		lost.getChildren().add(lostText);
 		lost.getChildren().add(root4);
 		lost.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		lost.setPrefSize(1440, 600);
+		lost.setPrefSize(W * table_size, H * table_size);
 		
 		StackPane win = new StackPane();
 		Label winText = new Label("YOU WIN");
@@ -145,7 +154,7 @@ public class Display extends Application {
 		win.getChildren().add(winText);
 		win.getChildren().add(root5);
 		win.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		win.setPrefSize(1440, 600);
+		win.setPrefSize(W * table_size, H * table_size);
 		
 		
 		
@@ -222,7 +231,7 @@ public class Display extends Application {
 				 * Stage()));
 				 */
 				primaryStage.setScene(scene1);
-				// menu.play_audio();
+				menu.play_audio();
 				audio.stop_audio();
 
 			}
@@ -244,6 +253,8 @@ public class Display extends Application {
 				primaryStage.setScene(scene1);
 				// menu.play_audio();
 				audio.stop_audio();
+				winGame.stop_audio();
+				lose.stop_audio();
 
 			}
 		});
@@ -258,6 +269,7 @@ public class Display extends Application {
 				timeline5.pause();
 				primaryStage.setScene(scene3);
 				audio.pause();
+				stopGame.play_once();
 			}
 		});
 		resume.setOnAction(new EventHandler<ActionEvent>() {
@@ -271,6 +283,7 @@ public class Display extends Application {
 				timeline5.play();
 				primaryStage.setScene(scene2);
 				audio.play_audio();
+				stopGame.stop_audio();
 			}
 		});
 
@@ -327,6 +340,8 @@ public class Display extends Application {
 					timeline4.stop();
 					timeline5.stop();
 					primaryStage.setScene(new Scene(lost));
+					lose.play_once();
+					audio.stop_audio();
 				}
 				if(enemyHpBar.getProgress() == 0) {
 					timeline1.stop();
@@ -335,6 +350,9 @@ public class Display extends Application {
 					timeline4.stop();
 					timeline5.stop();
 					primaryStage.setScene(new Scene(win));
+					winGame.play_once();
+					audio.stop_audio();
+					
 				}
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());

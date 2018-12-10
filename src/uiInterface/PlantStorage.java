@@ -44,13 +44,13 @@ public class PlantStorage extends VBox {
 	private Label solar;
 
 	public PlantStorage(Table table, Player p1) {
-		super(15);
+		super(10);
 		this.table = table;
 		this.p1 = p1;
 		this.hpBar = new ProgressBar(p1.getPlayerHp() / p1.getPlayerMaxHp());
 		hpBar.setPrefSize(100, 20);
 		hpBar.setStyle("-fx-accent: red; ");
-		super.setPadding(new Insets(30, 10, 30, 10));
+		super.setPadding(new Insets(25, 10, 30, 10));
 		setAlignment(Pos.CENTER);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
 		Label player = new Label("Player ");
