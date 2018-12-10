@@ -26,7 +26,6 @@ public class RandomSpawn {
 				randNum = 0;
 			} else {
 				randNum = rnd.nextInt(plantList.size());
-				// System.out.println(randNum);
 			}
 			rand.add(plantList.get((randNum)));
 		}
@@ -34,7 +33,6 @@ public class RandomSpawn {
 
 	public void updateToTable() {
 		addRand(1);
-		System.out.println();
 		for (int i = 0; i < rand.size(); i++) {
 			Random rnd = new Random();
 			int randi = rnd.nextInt(Player.row);

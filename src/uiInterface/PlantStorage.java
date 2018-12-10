@@ -1,7 +1,5 @@
 package uiInterface;
 
-import java.util.ArrayList;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -51,7 +49,7 @@ public class PlantStorage extends VBox {
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
 		player = new Label("Player ");
 		hp = new Label("Hp");
-		this.solar = new Label(String.valueOf(p1.getSunPower()));
+		this.solar = new Label(String.valueOf(p1.getSolarPower()));
 		player.setStyle("-fx-font-size:30; -fx-font-weight:BOLD;");
 		solar.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
 		hp.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
@@ -79,7 +77,7 @@ public class PlantStorage extends VBox {
 					@Override
 					public void handle(MouseEvent event) {
 						System.out.println("grab");
-						if(p1.getSunPower() < plant.getCost()) {
+						if(p1.getSolarPower() < plant.getCost()) {
 							return;
 						}
 						
@@ -175,14 +173,14 @@ public class PlantStorage extends VBox {
 	}
 
 	public void updateSolarPower() {
-		solar.setText(String.valueOf(p1.getSunPower()));
+		solar.setText(String.valueOf(p1.getSolarPower()));
 	}
 
 	public void updateStorage() {
 		updateHpBar();
 		updateSolarPower();
 	}
-	public ProgressBar getProgressBar() {
+	public ProgressBar getHpBar() {
 		return this.hpBar;
 	}
 	public void DragAll() {

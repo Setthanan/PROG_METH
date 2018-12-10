@@ -8,7 +8,6 @@ public abstract class Plant extends GameObject implements Elemental {
 	protected String name;
 	protected int life;
 	protected String elemental;
-	protected int direction;
 
 	public Plant(String plantKind, String name, int life, String elemental, int cost, int x, int y) {
 		super(x, y);

@@ -11,7 +11,7 @@ public abstract class AttackPlant extends Plant {
 			maxHp = 1;
 		this.hp = maxHp;
 		this.maxHp = maxHp;
-		this.bullet = new Bullet(this, x, y, true); // x ,y position
+		this.bullet = new Bullet(this, x, y); // x ,y position
 
 	}
 

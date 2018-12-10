@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
 	private AttackPlant owner;
 	private Image image = new Image(ClassLoader.getSystemResource("Pea.png").toString(), w, w, false, false);;
 
-	public Bullet(AttackPlant owner, int x, int y, boolean visible) {
+	public Bullet(AttackPlant owner, int x, int y) {
 		super(x, y);
 		this.power = 1;
 		this.readyState = true;
@@ -22,7 +22,6 @@ public class Bullet extends GameObject {
 
 	}
 
-	
 	public double getPower() {
 		return power;
 	}
@@ -31,12 +30,10 @@ public class Bullet extends GameObject {
 		this.power = power;
 	}
 
-	
-
 	public void update() {
 		// x,y position
 
-		this.x += velX ;
+		this.x += velX;
 	}
 
 	public void render(GraphicsContext gc) {

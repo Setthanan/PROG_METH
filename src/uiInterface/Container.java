@@ -1,6 +1,5 @@
 package uiInterface;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -39,7 +38,7 @@ public class Container {
 			for (int j = 0; j < Player.collumn; j++) {
 				if (p1.playerPlant[i][j] != null && p1.playerPlant[i][j] instanceof AttackPlant) {
 					((AttackPlant) p1.playerPlant[i][j]).setBullet(new Bullet((AttackPlant) p1.playerPlant[i][j],
-							p1.playerPlant[i][j].getX() + 80, p1.playerPlant[i][j].getY(), true));
+							p1.playerPlant[i][j].getX() + 80, p1.playerPlant[i][j].getY()));
 					if (((AttackPlant) p1.playerPlant[i][j]).getBullet() != null) {
 						Bullet temp = ((AttackPlant) p1.playerPlant[i][j]).getBullet();
 						if (!bullets1.contains(temp)) {
@@ -55,7 +54,7 @@ public class Container {
 			for (int j = 0; j < Player.collumn; j++) {
 				if (p2.playerPlant[i][j] != null && p2.playerPlant[i][j] instanceof AttackPlant) {
 					((AttackPlant) p2.playerPlant[i][j]).setBullet(new Bullet((AttackPlant) p2.playerPlant[i][j],
-							p2.playerPlant[i][j].getX(), p2.playerPlant[i][j].getY(), true));
+							p2.playerPlant[i][j].getX(), p2.playerPlant[i][j].getY()));
 					if (((AttackPlant) p2.playerPlant[i][j]).getBullet() != null) {
 						Bullet temp = ((AttackPlant) p2.playerPlant[i][j]).getBullet();
 						if (!bullets2.contains(temp)) {
@@ -160,6 +159,7 @@ public class Container {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void updateSolarPower(Table table) {
 
 		for (int i = 0; i < solars.size(); i++) {
@@ -178,7 +178,7 @@ public class Container {
 			solars.get(i).setOnMouseClicked(event);
 
 			if (solars.get(i).getIsClicked()) {
-				p1.setSolarPower(25 + p1.getSunPower());
+				p1.setSolarPower(25 + p1.getSolarPower());
 				if (solars.get(i).getI() >= 0 && solars.get(i).getJ() >= 0 && solars.get(i).getI() < Player.row
 						&& solars.get(i).getJ() < Player.collumn) {
 					table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));

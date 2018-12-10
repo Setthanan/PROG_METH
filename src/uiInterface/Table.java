@@ -61,7 +61,7 @@ public class Table extends Pane {
 			}
 		}
 
-		public void set(int i, int j, Plant plant) {
+		public void setTile(int i, int j, Plant plant) {
 			this.i = i;
 			this.j = j;
 			this.plant = plant;
@@ -114,12 +114,12 @@ public class Table extends Pane {
 				}
 				if (p1.playerPlant[i][j] != null) {
 					if (!(p1.playerPlant[i][j].equals(tiles[i][j].getPlant()))) {
-						tiles[i][j].set(i, j, p1.playerPlant[i][j]);
+						tiles[i][j].setTile(i, j, p1.playerPlant[i][j]);
 
 					}
 				}
 				if (p1.playerPlant[i][j] == null) {
-					tiles[i][j].set(i, j, null);
+					tiles[i][j].setTile(i, j, null);
 				}
 
 			}
@@ -130,12 +130,12 @@ public class Table extends Pane {
 				}
 				if (p2.playerPlant[i][min] != null) {
 					if (!(p2.playerPlant[i][min].equals(tiles[i][j].getPlant()))) {
-						tiles[i][j].set(i, j, p2.playerPlant[i][min]);
+						tiles[i][j].setTile(i, j, p2.playerPlant[i][min]);
 					}
 
 				}
 				if (p2.playerPlant[i][min] == null) {
-					tiles[i][j].set(i, j, null);
+					tiles[i][j].setTile(i, j, null);
 				}
 
 				min++;

@@ -12,7 +12,7 @@ public class StonePlant extends SpecialPlant {
 
 	public StonePlant() {
 		super("StonePlant", "normal", 0, 25, 0, 0);
-		this.guard = 4;
+		this.guard = 6;
 	}
 
 	@Override

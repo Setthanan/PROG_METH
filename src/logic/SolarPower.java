@@ -1,8 +1,6 @@
 package logic;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import uiInterface.Display;
@@ -53,5 +51,5 @@ public class SolarPower extends Rectangle {
 	public void setJ(int j) {
 		this.j = j;
 	}
-	
+
 }

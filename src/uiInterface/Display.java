@@ -2,7 +2,6 @@ package uiInterface;
 
 import logic.*;
 
-import java.sql.Time;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -31,8 +30,8 @@ import javafx.util.Duration;
 
 public class Display extends Application {
 
-	private Player p1 = new Player(150, 1500, 0, 0);
-	private Player p2 = new Player(150, 200000000, 0, 0);
+	private Player p1 = new Player(150, 1500);
+	private Player p2 = new Player(150, 200000000);
 	private static final int H = 5;
 	private static final int W = 12;
 	public static final int table_size = 120;
@@ -78,6 +77,7 @@ public class Display extends Application {
 	/*
 	 * public void tick() { handler.tick(); }
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(Stage primaryStage) {
 
@@ -328,7 +328,8 @@ public class Display extends Application {
 			@Override
 			public void handle(Event event) {
 				container.addSolarPower(table);
-				p1.setSolarPower(p1.getSunPower() + 10);
+				p1.setSolarPower(p1.getSolarPower() + 10);
+				p2.setSolarPower(p1.getSolarPower() + 10);
 			}
 
 		};
@@ -337,7 +338,7 @@ public class Display extends Application {
 			@Override
 			public void handle(Event event) {
 				table.getCanvas().getGraphicsContext2D().clearRect(0, 0, 1500, 600);
-				if (storages.getProgressBar().getProgress() == 0) {
+				if (storages.getHpBar().getProgress() == 0) {
 					timeline1.stop();
 					timeline2.stop();
 					timeline3.stop();
