@@ -353,7 +353,6 @@ public class Display extends Application {
 
 				}
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
-				container.drawSolarPowers(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
 				
 			}

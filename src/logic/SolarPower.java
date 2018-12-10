@@ -53,7 +53,5 @@ public class SolarPower extends Rectangle {
 	public void setJ(int j) {
 		this.j = j;
 	}
-	public void drawSolarPower(GraphicsContext gc) {
-		gc.drawImage(image,x,y,20,20);
-	}
+	
 }

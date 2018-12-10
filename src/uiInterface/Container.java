@@ -212,10 +212,5 @@ public class Container {
 		deleteAllSolarFromTable(table);
 		this.solars.clear();
 	}
-	public void drawSolarPowers(GraphicsContext gc) {
-		for (int i = 0; i < bullets1.size(); i++) {
-			solars.get(i).drawSolarPower(gc);
-
-		}
-	}
+	
 }
