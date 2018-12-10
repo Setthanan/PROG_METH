@@ -38,8 +38,8 @@ public class Container {
 		for (int i = 0; i < Player.row; i++) {
 			for (int j = 0; j < Player.collumn; j++) {
 				if (p1.playerPlant[i][j] != null && p1.playerPlant[i][j] instanceof AttackPlant) {
-					((AttackPlant) p1.playerPlant[i][j])
-							.setBullet(new Bullet((AttackPlant)p1.playerPlant[i][j],p1.playerPlant[i][j].getX() + 80, p1.playerPlant[i][j].getY(), true));
+					((AttackPlant) p1.playerPlant[i][j]).setBullet(new Bullet((AttackPlant) p1.playerPlant[i][j],
+							p1.playerPlant[i][j].getX() + 80, p1.playerPlant[i][j].getY(), true));
 					if (((AttackPlant) p1.playerPlant[i][j]).getBullet() != null) {
 						Bullet temp = ((AttackPlant) p1.playerPlant[i][j]).getBullet();
 						if (!bullets1.contains(temp)) {
@@ -54,8 +54,8 @@ public class Container {
 		for (int i = 0; i < Player.row; i++) {
 			for (int j = 0; j < Player.collumn; j++) {
 				if (p2.playerPlant[i][j] != null && p2.playerPlant[i][j] instanceof AttackPlant) {
-					((AttackPlant) p2.playerPlant[i][j])
-							.setBullet(new Bullet((AttackPlant)p2.playerPlant[i][j],p2.playerPlant[i][j].getX(), p2.playerPlant[i][j].getY(), true));
+					((AttackPlant) p2.playerPlant[i][j]).setBullet(new Bullet((AttackPlant) p2.playerPlant[i][j],
+							p2.playerPlant[i][j].getX(), p2.playerPlant[i][j].getY(), true));
 					if (((AttackPlant) p2.playerPlant[i][j]).getBullet() != null) {
 						Bullet temp = ((AttackPlant) p2.playerPlant[i][j]).getBullet();
 						if (!bullets2.contains(temp)) {
@@ -163,9 +163,9 @@ public class Container {
 	public void updateSolarPower(Table table) {
 
 		for (int i = 0; i < solars.size(); i++) {
-			
+
 			EventHandler event = new EventHandler<MouseEvent>() {
-				
+
 				@Override
 				public void handle(MouseEvent event) {
 					if (event.getSource() instanceof SolarPower) {
@@ -174,16 +174,15 @@ public class Container {
 					event.consume();
 				}
 			};
-			
-				solars.get(i).setOnMouseClicked(event);
-			
-			
+
+			solars.get(i).setOnMouseClicked(event);
+
 			if (solars.get(i).getIsClicked()) {
 				p1.setSolarPower(25 + p1.getSunPower());
 				if (solars.get(i).getI() >= 0 && solars.get(i).getJ() >= 0 && solars.get(i).getI() < Player.row
 						&& solars.get(i).getJ() < Player.collumn) {
 					table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));
-				// solars.get(i).setFill(Color.TRANSPARENT);
+					// solars.get(i).setFill(Color.TRANSPARENT);
 				}
 				int m = solars.get(i).getI();
 				int n = solars.get(i).getJ();
@@ -196,21 +195,23 @@ public class Container {
 			}
 
 		}
-	
+
 	}
+
 	public void deleteAllSolarFromTable(Table table) {
-		for(int i = 0;i < solars.size();i++) {
+		for (int i = 0; i < solars.size(); i++) {
 			if (solars.get(i).getI() >= 0 && solars.get(i).getJ() >= 0 && solars.get(i).getI() < Player.row
 					&& solars.get(i).getJ() < Player.collumn) {
 				table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));
 			}
 		}
 	}
+
 	public void resetContainer(Table table) {
 		this.bullets1.clear();
 		this.bullets2.clear();
 		deleteAllSolarFromTable(table);
 		this.solars.clear();
 	}
-	
+
 }

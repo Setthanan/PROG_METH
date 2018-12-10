@@ -1,8 +1,11 @@
 package uiInterface;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,6 +25,7 @@ public class Table extends Pane {
 	public final int row = Player.row;
 	private Tile[][] tiles;
 	private Player p1, p2;
+
 	public class Tile extends StackPane {
 		private int i, j;
 		private int dir;
@@ -46,7 +50,16 @@ public class Table extends Pane {
 			setAlignment(Pos.CENTER);
 			setTranslateY(i * box_h);
 			setTranslateX(j * box_w);
-
+			if (j < col / 2) {
+				setOnMousePressed(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						if (event.isSecondaryButtonDown()) {
+							p1.playerPlant[i][j] = null;
+						}
+					}
+				});
+			}
 		}
 
 		public void set(int i, int j, Plant plant) {
@@ -56,7 +69,7 @@ public class Table extends Pane {
 			if (j >= col / 2 && plant != null) {
 				this.dir = -1;
 				this.plant.setX(j * box_w);
-				
+
 			}
 			if (this.plant instanceof AttackPlant) {
 				((AttackPlant) this.plant).getBullet().setX(this.plant.getX());
@@ -164,11 +177,12 @@ public class Table extends Pane {
 
 		tiles[i][j].getChildren().add(obj);
 	}
-	public void resetTable(PlantStorage storage){
+
+	public void resetTable(PlantStorage storage) {
 		p1.resetPlayer();
 		p2.resetPlayer();
 		updateTable();
 		storage.DragAll();
 	}
-	
+
 }

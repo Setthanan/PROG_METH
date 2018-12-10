@@ -354,7 +354,7 @@ public class Display extends Application {
 				}
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
-				
+
 			}
 
 		};
@@ -372,7 +372,7 @@ public class Display extends Application {
 		timeline4 = new Timeline();
 		timeline5 = new Timeline();
 
-		KeyFrame key1 = new KeyFrame(Duration.millis(1), event2);
+		KeyFrame key1 = new KeyFrame(Duration.millis(10), event2);
 		KeyFrame key2 = new KeyFrame(Duration.millis(10000), event1);
 		KeyFrame key3 = new KeyFrame(Duration.millis(1), event4);
 		KeyFrame key4 = new KeyFrame(Duration.millis(15000), event3);
