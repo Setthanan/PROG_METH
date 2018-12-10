@@ -6,8 +6,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -32,8 +30,6 @@ import uiInterface.Table.Tile;
 
 public class PlantStorage extends VBox {
 	/// this class is suited for include error exception
-	private final int Num0fSlot = 5;
-	private ArrayList<Plant> storage;
 	private ImageView Peashooter;
 	public ImageView Sunflower;
 	public ImageView Walnut;
@@ -41,7 +37,7 @@ public class PlantStorage extends VBox {
 	private Player p1;
 	private Table table;
 	private ProgressBar hpBar;
-	private Label solar;
+	private Label solar,player,hp;
 
 	public PlantStorage(Table table, Player p1) {
 		super(10);
@@ -53,12 +49,11 @@ public class PlantStorage extends VBox {
 		super.setPadding(new Insets(25, 10, 30, 10));
 		setAlignment(Pos.CENTER);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
-		Label player = new Label("Player ");
-		Label score = new Label("Score");
-		Label hp = new Label("Hp");
+		player = new Label("Player ");
+		hp = new Label("Hp");
 		this.solar = new Label(String.valueOf(p1.getSunPower()));
 		player.setStyle("-fx-font-size:30; -fx-font-weight:BOLD;");
-		score.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
+		solar.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
 		hp.setStyle("-fx-font-size:25; -fx-font-weight:BOLD;");
 		Peashooter = new ImageView(new Image(ClassLoader.getSystemResource("peashooter.png").toString()));
 		Sunflower = new ImageView(new Image(ClassLoader.getSystemResource("sunflower.png").toString()));
@@ -69,10 +64,7 @@ public class PlantStorage extends VBox {
 		drag(Walnut, "walnut",new StonePlant());
 		HBox hbox = new HBox();
 		hbox.getChildren().addAll(Sun, solar);
-		this.storage = new ArrayList<Plant>();
-		
-
-		getChildren().addAll(player, score, hp, hpBar, hbox, Sunflower, Peashooter, Walnut);
+		getChildren().addAll(player,hp, hpBar, hbox, Sunflower, Peashooter, Walnut);
 
 	}
 
@@ -168,50 +160,18 @@ public class PlantStorage extends VBox {
 		}
 	}
 
-	/*
-	 * public void drawPlantSlot() { for(int i = 0; i < Num0fSlot ; i++) {
-	 * GraphicsContext gc = plantSlot.getGraphicsContext2D(); VBox slot = new
-	 * VBox(); slot.setPrefSize(300,300); slot.getChildren().add(plantSlot);
-	 * gc.drawImage(storage.get(i).getImage(), 100*i, 0); gc.strokeRect(0, 0, 100*i,
-	 * 125); this.getChildren().add(slot);
-	 * 
-	 * } }
-	 */
-	/*
-	 * public void updatePlantSlot() { drawPlantSlot(); }
-	 */
-	public String addPlant(Plant plant) {
-		if (storage.size() < Num0fSlot) {
-			storage.add(plant);
-			/// this will make size of storage equal 8
-			return plant.toString();
-		} else {
-			return "Cant put plant anymore";
-		}
-	}
-
-	/*
-	 * public Plant pickPlant(int i) { ///must check data that get from this method
-	 * is not null in Player Class Plant obj = null; if(i>=0 && i < storage.size())
-	 * { if ( storage.get(i) instanceof GreenBean) obj = new GreenBean(); if(
-	 * storage.get(i) instanceof SunFlower) obj = new SunFlower();
-	 * 
-	 * } return obj; }
-	 */
-	public void listPlant() {
-		// to show list of plant that consist of name+type+element
-		for (int i = 0; i < storage.size(); i++) {
-			Plant plant = storage.get(i);
-			System.out.println(plant.getName() + " " + plant.getPlantKind() + " " + plant.getElemental());
-		}
-	}
-
 	public void updateHpBar() {
 		if (p1.getPlayerHp() <= 0) {
 			hpBar.setProgress(0);
 			return;
 		}
 		hpBar.setProgress(p1.getPlayerHp() / p1.getPlayerMaxHp());
+	}
+	
+	public void resetProgressBar() {
+		if(hpBar.getProgress() == 0) {
+			hpBar.setProgress(p1.getPlayerMaxHp());
+		}
 	}
 
 	public void updateSolarPower() {

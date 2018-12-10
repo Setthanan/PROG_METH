@@ -32,7 +32,7 @@ import javafx.util.Duration;
 public class Display extends Application {
 
 	private Player p1 = new Player(2, 2000, 0, 0);
-	private Player p2 = new Player(20, 200000, 0, 0);
+	private Player p2 = new Player(2, 200000, 0, 0);
 	private static final int H = 5;
 	private static final int W = 12;
 	public static final int table_size = 120;
@@ -44,7 +44,7 @@ public class Display extends Application {
 	private RandomSpawn com = new RandomSpawn(p2);
 	private Timeline timeline1, timeline2, timeline3, timeline4, timeline5;
 	private ImageView main_menu, click, yard, exitBtn;
-	private Button start, exit, back, pause, resume, restart;
+	private Button start, exit, back, pause, resume, restart, restart2;
 	private Scene scene1, scene2, scene3, scene4, scene5;
 	private Audio audio, menu, lose, winGame, stopGame;
 	private ProgressBar enemyHpBar = new ProgressBar();
@@ -63,6 +63,7 @@ public class Display extends Application {
 		menu.play_audio();
 		back = new Button("MAIN MENU");
 		restart = new Button("RESTART");
+		restart2 = new Button("RESTART");
 		pause = new Button("PAUSE");
 		resume = new Button("RESUME");
 		exit = new Button();
@@ -99,12 +100,10 @@ public class Display extends Application {
 
 		VBox enemyBox = new VBox();
 		enemyBox.setAlignment(Pos.CENTER);
-		enemyBox.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+		enemyBox.setBackground(new Background(new BackgroundFill(Color.DARKORANGE, null, null)));
 		enemyBox.getChildren().addAll(enemyHpBar);
 
 		HBox playScene = new HBox();
-		// playScene.setPrefSize((W+1) * table_size, H * table_size);
-		// playScene.setPadding(new Insets(15, 15, 15, 15));
 		playScene.setAlignment(Pos.CENTER);
 		playScene.getChildren().addAll(storages, tile, enemyBox);
 
@@ -126,7 +125,7 @@ public class Display extends Application {
 		scene3 = new Scene(root3);
 
 		StackPane lost = new StackPane();
-		Label lostText = new Label("YOU LOST");
+		Label lostText = new Label("YOU LOSE");
 		lostText.setScaleX(5);
 		lostText.setScaleY(5);
 		lostText.setTextFill(Color.WHITE);
@@ -145,15 +144,15 @@ public class Display extends Application {
 		Label winText = new Label("YOU WIN");
 		winText.setScaleX(5);
 		winText.setScaleY(5);
-		winText.setTextFill(Color.WHITE);
+		winText.setTextFill(Color.BLACK);
 		VBox root5 = new VBox(10);
 		root5.setAlignment(Pos.CENTER);
 		root5.setTranslateY(200);
 
-		// root5.getChildren().add();
+		root5.getChildren().add(restart2);
 		win.getChildren().add(winText);
 		win.getChildren().add(root5);
-		win.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		win.setBackground(new Background(new BackgroundFill(Color.ORANGE, null, null)));
 		win.setPrefSize(W * table_size, H * table_size);
 		scene5 = new Scene(win);
 
@@ -223,11 +222,6 @@ public class Display extends Application {
 				timeline3.stop();
 				timeline4.stop();
 				timeline5.stop();
-
-				/*
-				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
-				 * Stage()));
-				 */
 				primaryStage.setScene(scene1);
 				menu.play_audio();
 				audio.stop_audio();
@@ -243,11 +237,23 @@ public class Display extends Application {
 				timeline3.stop();
 				timeline4.stop();
 				timeline5.stop();
+				primaryStage.setScene(scene1);
+				menu.play_audio();
+				audio.stop_audio();
+				winGame.stop_audio();
+				lose.stop_audio();
 
-				/*
-				 * primaryStage.close(); Platform.runLater(() -> new Display().start(new
-				 * Stage()));
-				 */
+			}
+		});
+		restart2.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				timeline1.stop();
+				timeline2.stop();
+				timeline3.stop();
+				timeline4.stop();
+				timeline5.stop();
 				primaryStage.setScene(scene1);
 				menu.play_audio();
 				audio.stop_audio();
@@ -337,6 +343,7 @@ public class Display extends Application {
 					timeline3.stop();
 					timeline4.stop();
 					timeline5.stop();
+					storages.resetProgressBar();
 					primaryStage.setScene(scene4);
 					lose.play_once();
 					audio.stop_audio();
@@ -347,6 +354,7 @@ public class Display extends Application {
 					timeline3.stop();
 					timeline4.stop();
 					timeline5.stop();
+					enemyHpBar.setProgress(20);
 					primaryStage.setScene(scene5);
 					winGame.play_once();
 					audio.stop_audio();
