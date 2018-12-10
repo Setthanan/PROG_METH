@@ -1,14 +1,15 @@
 package logic;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import uiInterface.Display;
 
 public class SolarPower extends Rectangle {
-	private Image image = new Image(ClassLoader.getSystemResource("sunflower.gif").toString(), 50, 50, false, false);
-	private Image s = new Image(ClassLoader.getSystemResource("sun.gif").toString());
-	private ImagePattern sun = new ImagePattern(s);
+	private Image image = new Image(ClassLoader.getSystemResource("sun.gif").toString());
+	private ImagePattern sun = new ImagePattern(image);
 	private int x;
 	private int y;
 	private int i, j;
@@ -52,5 +53,7 @@ public class SolarPower extends Rectangle {
 	public void setJ(int j) {
 		this.j = j;
 	}
-
+	public void drawSolarPower(GraphicsContext gc) {
+		gc.drawImage(image,x,y,20,20);
+	}
 }

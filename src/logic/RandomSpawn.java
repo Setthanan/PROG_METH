@@ -34,12 +34,12 @@ public class RandomSpawn {
 		return true;
 	}
 	public void updateToTable() {
-		addRand(1);
 		System.out.println();
 		for(int i = 0; i < rand.size();i++) {
 			Random rnd = new Random();
 			int randi = rnd.nextInt(Player.row);
 			int randj = rnd.nextInt(Player.collumn);
+			System.out.println(player.playerPlant[randi][randj]);
 			if(rand.get(i) instanceof GreenBean) {
 				player.spawnPlant( new GreenBean(), randi, randj);
 				rand.remove(i);
@@ -55,7 +55,7 @@ public class RandomSpawn {
 				rand.remove(i);
 				continue;
 			}
-			System.out.println(player.playerPlant[randi][randj]);
+			
 			
 		}
 	}

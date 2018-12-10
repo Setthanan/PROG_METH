@@ -1,6 +1,7 @@
 package logic;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uiInterface.Display;
 
@@ -20,7 +21,6 @@ public class SunFlower extends SpecialPlant {
 		if (this.state) {
 			this.solar = new SolarPower(x, y);
 			this.state = false;
-			System.out.println("loaded");
 		}
 
 	}
@@ -50,4 +50,5 @@ public class SunFlower extends SpecialPlant {
 	public void setSolarPower(SolarPower solar) {
 		this.solar = solar;
 	}
+	
 }

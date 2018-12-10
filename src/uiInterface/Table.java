@@ -22,7 +22,6 @@ public class Table extends Pane {
 	public final int row = Player.row;
 	private Tile[][] tiles;
 	private Player p1, p2;
-
 	public class Tile extends StackPane {
 		private int i, j;
 		private int dir;
@@ -165,9 +164,11 @@ public class Table extends Pane {
 
 		tiles[i][j].getChildren().add(obj);
 	}
-	public void resetTable(){
+	public void resetTable(PlantStorage storage){
 		p1.resetPlayer();
 		p2.resetPlayer();
 		updateTable();
+		storage.DragAll();
 	}
+	
 }

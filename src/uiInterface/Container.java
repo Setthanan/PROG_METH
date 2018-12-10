@@ -109,7 +109,7 @@ public class Container {
 			}
 		}
 		for (int i = 0; i < bullets2.size(); i++) {
-			if (bullets2.get(i).getX() < -1440) {
+			if (bullets2.get(i).getX() < 0) {
 				p1.directDamage(bullets2.get(i).getOwner().calDamage(p1));
 				bullets2.remove(bullets2.get(i));
 			}
@@ -163,24 +163,28 @@ public class Container {
 	public void updateSolarPower(Table table) {
 
 		for (int i = 0; i < solars.size(); i++) {
-
-			solars.get(i).addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
+			
+			EventHandler event = new EventHandler<MouseEvent>() {
+				
 				@Override
 				public void handle(MouseEvent event) {
 					if (event.getSource() instanceof SolarPower) {
 						((SolarPower) event.getSource()).setIsClicked(true);
 					}
-
+					event.consume();
 				}
-			});
+			};
+			
+				solars.get(i).setOnMouseClicked(event);
+			
+			
 			if (solars.get(i).getIsClicked()) {
 				p1.setSolarPower(25 + p1.getSunPower());
 				if (solars.get(i).getI() >= 0 && solars.get(i).getJ() >= 0 && solars.get(i).getI() < Player.row
-						&& solars.get(i).getJ() < Player.collumn)
+						&& solars.get(i).getJ() < Player.collumn) {
 					table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));
 				// solars.get(i).setFill(Color.TRANSPARENT);
-
+				}
 				int m = solars.get(i).getI();
 				int n = solars.get(i).getJ();
 				System.out.println("this" + m);
@@ -192,11 +196,26 @@ public class Container {
 			}
 
 		}
-
+	
 	}
-	public void resetContainer() {
+	public void deleteAllSolarFromTable(Table table) {
+		for(int i = 0;i < solars.size();i++) {
+			if (solars.get(i).getI() >= 0 && solars.get(i).getJ() >= 0 && solars.get(i).getI() < Player.row
+					&& solars.get(i).getJ() < Player.collumn) {
+				table.removeFromTile(solars.get(i).getI(), solars.get(i).getJ(), solars.get(i));
+			}
+		}
+	}
+	public void resetContainer(Table table) {
 		this.bullets1.clear();
 		this.bullets2.clear();
+		deleteAllSolarFromTable(table);
 		this.solars.clear();
+	}
+	public void drawSolarPowers(GraphicsContext gc) {
+		for (int i = 0; i < bullets1.size(); i++) {
+			solars.get(i).drawSolarPower(gc);
+
+		}
 	}
 }

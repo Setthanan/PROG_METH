@@ -81,7 +81,7 @@ public class PlantStorage extends VBox {
 		for (int i = 0; i < table.row; i++) {
 			for (int j = 0; j < table.col / 2; j++) {
 				
-				Tile tiles = table.getTile(i, j);
+				Tile tiles = (table.getTile())[i][j];
 				iv.setOnDragDetected(new EventHandler<MouseEvent>() {
 					
 					@Override
@@ -224,5 +224,10 @@ public class PlantStorage extends VBox {
 	}
 	public ProgressBar getProgressBar() {
 		return this.hpBar;
+	}
+	public void DragAll() {
+		drag(Peashooter, "peashooter",new GreenBean());
+		drag(Sunflower, "sunflower",new SunFlower());
+		drag(Walnut, "walnut",new StonePlant());
 	}
 }

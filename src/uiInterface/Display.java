@@ -177,8 +177,8 @@ public class Display extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				table.resetTable();
-				container.resetContainer();
+				container.resetContainer(table);
+				table.resetTable(storages);
 				timeline1.playFromStart();
 				timeline2.playFromStart();
 				timeline3.playFromStart();
@@ -294,7 +294,7 @@ public class Display extends Application {
 
 			@Override
 			public void handle(Event event) {
-				com.addRand(3);
+				com.addRand(2);
 				com.updateToTable();
 				container.addBulletContainer();
 			}
@@ -353,8 +353,9 @@ public class Display extends Application {
 
 				}
 				container.drawBullet(table.getCanvas().getGraphicsContext2D());
+				container.drawSolarPowers(table.getCanvas().getGraphicsContext2D());
 				table.drawPlantInTable(table.getCanvas().getGraphicsContext2D());
-
+				
 			}
 
 		};
