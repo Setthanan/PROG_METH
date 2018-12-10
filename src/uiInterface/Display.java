@@ -249,7 +249,7 @@ public class Display extends Application {
 				 * Stage()));
 				 */
 				primaryStage.setScene(scene1);
-				// menu.play_audio();
+				menu.play_audio();
 				audio.stop_audio();
 				winGame.stop_audio();
 				lose.stop_audio();
@@ -338,7 +338,7 @@ public class Display extends Application {
 					timeline4.stop();
 					timeline5.stop();
 					primaryStage.setScene(scene4);
-					// lose.play_once();
+					lose.play_once();
 					audio.stop_audio();
 				}
 				if (enemyHpBar.getProgress() == 0) {
