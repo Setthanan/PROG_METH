@@ -128,15 +128,15 @@ public class Container {
 		}
 	}
 
-	public void updateBulletMovement(double time) {
+	public void updateBulletMovement() {
 		for (int i = 0; i < bullets1.size(); i++) {
-			bullets1.get(i).update(time);
+			bullets1.get(i).update();
 
 		}
 		for (int i = 0; i < bullets2.size(); i++) {
 			if (bullets2.get(i).getVelX() != -1)
 				bullets2.get(i).setVelX(-1);
-			bullets2.get(i).update(time);
+			bullets2.get(i).update();
 			;
 
 		}

@@ -35,26 +35,12 @@ public abstract class AttackPlant extends Plant {
 
 	public abstract double calDamage(Player other);
 
-	public boolean fireAt(Plant other) {
-		if (this.bullet.isReady()) {
-			other.takeDamage(calDamage(other));
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public double getHp() {
 		return hp;
 	}
 
 	public void setBullet(Bullet bullet) {
 		this.bullet = bullet;
-	}
-
-	public void setBullet(int x, int y) {
-		this.bullet.setX(x);
-		this.bullet.setY(y);
 	}
 
 	public Bullet getBullet() {

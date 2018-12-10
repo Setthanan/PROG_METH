@@ -22,28 +22,7 @@ public class Bullet extends GameObject {
 
 	}
 
-	public boolean fire() {
-		if (this.readyState) {
-			this.readyState = false;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean loadBullet() {
-		if (!this.readyState) {
-			this.readyState = true;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean isReady() {
-		return this.readyState;
-	}
-
+	
 	public double getPower() {
 		return power;
 	}
@@ -52,18 +31,12 @@ public class Bullet extends GameObject {
 		this.power = power;
 	}
 
-	public boolean isReadyState() {
-		return readyState;
-	}
+	
 
-	public void setReadyState(boolean readyState) {
-		this.readyState = readyState;
-	}
-
-	public void update(double time) {
+	public void update() {
 		// x,y position
 
-		this.x += velX * time;
+		this.x += velX ;
 	}
 
 	public void render(GraphicsContext gc) {

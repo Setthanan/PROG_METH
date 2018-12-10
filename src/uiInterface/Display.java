@@ -314,7 +314,7 @@ public class Display extends Application {
 				table.updateTable();
 				container.updateSolarPower(table);
 				container.updateCollision();
-				container.updateBulletMovement(1);
+				container.updateBulletMovement();
 				p1.detectPlant();
 				p2.detectPlant();
 				container.updateOutOfRangeBullet();
