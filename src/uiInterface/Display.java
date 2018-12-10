@@ -30,7 +30,7 @@ import javafx.util.Duration;
 
 public class Display extends Application {
 
-	private Player p1 = new Player(150, 1500);
+	private Player p1 = new Player(150, 500);
 	private Player p2 = new Player(150, 200000000);
 	private static final int H = 5;
 	private static final int W = 12;
