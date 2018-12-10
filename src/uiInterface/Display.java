@@ -74,9 +74,6 @@ public class Display extends Application {
 		enemyHpBar.setProgress(p2.getPlayerHp() / p2.getPlayerMaxHp());
 	}
 
-	/*
-	 * public void tick() { handler.tick(); }
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void start(Stage primaryStage) {

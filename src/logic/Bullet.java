@@ -37,12 +37,7 @@ public class Bullet extends GameObject {
 	}
 
 	public void render(GraphicsContext gc) {
-
-		// gc.fillOval(x, y+25, w, w);//Image(image, x, y);
 		gc.drawImage(image, x, y + 25);
-
-		// image = new
-		// Image(ClassLoader.getSystemResource("Pea.png").toString(),w,w,false,false);
 
 	}
 

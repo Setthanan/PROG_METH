@@ -14,7 +14,6 @@ public class RandomSpawn {
 		this.plantList = new ArrayList<Plant>();
 		plantList.add(new StonePlant());
 		plantList.add(new GreenBean());
-		// plantList.add(new SunFlower());
 
 	}
 

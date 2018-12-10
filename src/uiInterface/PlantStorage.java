@@ -76,11 +76,9 @@ public class PlantStorage extends VBox {
 					
 					@Override
 					public void handle(MouseEvent event) {
-						System.out.println("grab");
 						if(p1.getSolarPower() < plant.getCost()) {
 							return;
 						}
-						
 						
 						Dragboard db = iv.startDragAndDrop(TransferMode.MOVE);
 						ClipboardContent content = new ClipboardContent();
@@ -111,7 +109,6 @@ public class PlantStorage extends VBox {
 					public void handle(DragEvent event) {
 						if (event.getGestureSource() != tiles
 								&& event.getDragboard().hasContent(DataFormat.PLAIN_TEXT)) {
-							System.out.println("enter!!!");
 						}
 						event.consume();
 					}
@@ -121,7 +118,6 @@ public class PlantStorage extends VBox {
 
 					@Override
 					public void handle(DragEvent event) {
-						System.out.println("exit...");
 						event.consume();
 					}
 				});
@@ -133,10 +129,7 @@ public class PlantStorage extends VBox {
 						Dragboard db = event.getDragboard();
 						boolean success = false;
 						int i = (int) ((event.getSceneY() - 15) / 120);
-						int j = (int) ((event.getSceneX() - 132) / 120);
-						System.out.println(event.getSceneX() + " " + event.getSceneY() + "," + i + " " + j);
-						System.out.println(db.getString());
-
+						int j = (int) ((event.getSceneX() - 132) / 120);	
 						if (db.hasString()) {
 							if (db.getContent(DataFormat.PLAIN_TEXT).equals("peashooter")) {
 								p1.spawnPlant(new GreenBean(), i, j);

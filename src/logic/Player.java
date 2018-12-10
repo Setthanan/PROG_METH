@@ -35,7 +35,6 @@ public class Player {
 
 	public void spawnPlant(Plant obj, int i, int j) {
 		if (this.solarPower <= obj.getCost()) {
-			System.out.println("out of energy");
 			return;
 		}
 		// prevent sunPower be negative ;
@@ -46,7 +45,6 @@ public class Player {
 		playerPlant[i][j].setX(j * Display.box_w);
 		playerPlant[i][j].setY(i * Display.box_h);
 		this.solarPower -= obj.getCost();
-		System.out.println("Plant was spawned");
 	}
 
 	public void directDamage(double damage) {
